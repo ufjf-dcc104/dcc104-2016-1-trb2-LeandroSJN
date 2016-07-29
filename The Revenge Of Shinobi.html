@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>The Revenge Of Shinobi</title>
+		<style>
+			canvas
+            {
+				border: 1px solid black;
+			}
+			body
+            {
+				width: window.innerWidth;
+				margin: auto;
+			}
+		</style>
+		<script src="AudioResources.js"></script>
+        <script src="ImageResources.js"></script>
+        <script src="GameObject.js"></script>
+        <script src="Map.js"></script>
+	</head>
+	<body>
+	<canvas width="1280" height="650">
+		Seu navegador não tem suporte ao canvas!
+		Atualize seu navegador.
+	</canvas>
+	<script>
+		
+        var screen = document.getElementsByTagName("canvas")[0];
+		var ctx = screen.getContext("2d");
+        screen.width  = window.innerWidth - 0.001*window.innerWidth;
+        screen.height = window.innerHeight - 0.007*window.innerHeight;
+        
+        //Variaveis
+        {
+            
+		var fps = 60;
+		var dt = 1/fps;
+        var inGame = true;
+        var mousePos = 0;
+            
+        var audioLib = new AudioResources(12);
+        audioLib.load("jump", "sound/Cartoon Hop-SoundBible.com-553158131.mp3");
+            
+        var imgLib = new ImageResources();
+        imgLib.addImage("stoped", "img/stoped.png");
+        
+        }
+    
+        //Mouse
+        {
+            
+        function getMousePos(canvas, evt)
+        {
+            var rect = canvas.getBoundingClientRect();
+            return {
+              x: evt.clientX - rect.left,
+              y: evt.clientY - rect.top
+            };
+        }
+        
+        screen.addEventListener('mousemove', function(evt) {
+            mousePos = getMousePos(screen, evt);
+        }, false);
+        
+        }
+        
+        
+		function Update()
+        {
+            if(inGame)
+            {
+                //Limpar a screen
+                ctx.clearRect(0,0, screen.width, screen.height);
+                
+                moveMapa(dt);
+                desenhaMapa();
+                movePC(dt);
+                desenhaPC();
+            }
+		}
+        
+		function teclaPressionada(e)
+        {
+            freia = false;
+			console.log("Tecla Pressionada: " + e.keyCode);
+			switch(e.keyCode)
+            {
+				case 32:
+				break;
+				case 65:
+				break;
+				case 68:
+				break;
+				case 87:
+				break;
+				case 83:
+				break;
+			}
+		}
+        
+        screen.addEventListener("click", doSomething, false);
+        function doSomething(e)
+        {
+            
+        }
+        
+		function teclaSolta(e)
+        {
+			console.log("Tecla Solta: " + e.keyCode);
+			switch(e.keyCode)
+            {
+				case 65:
+                break;
+				case 68:
+				break;
+				case 87:
+                break;
+				case 83:
+				break;
+			}
+		}
+        
+		setInterval(Update, 1000/fps);
+		addEventListener("keydown", teclaPressionada);
+		addEventListener("keyup", teclaSolta);
+	</script>
+	</body>
+</html>
