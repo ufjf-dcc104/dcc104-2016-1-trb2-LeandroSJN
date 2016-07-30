@@ -4,10 +4,6 @@
 		<meta charset="utf-8" />
 		<title>The Revenge Of Shinobi</title>
 		<style>
-			canvas
-            {
-				border: 1px solid black;
-			}
 			body
             {
 				width: window.innerWidth;
@@ -28,8 +24,9 @@
 		
         var screen = document.getElementsByTagName("canvas")[0];
 		var ctx = screen.getContext("2d");
-        screen.width  = window.innerWidth - 0.001*window.innerWidth;
-        screen.height = window.innerHeight - 0.007*window.innerHeight;
+        document.body.style.overflow = 'hidden';
+        screen.width  = window.innerWidth;
+        screen.height = window.innerHeight;
         
         //Variaveis
         {
@@ -71,7 +68,9 @@
             if(inGame)
             {
                 //Limpar a screen
+                ctx.fillStyle = "black";
                 ctx.clearRect(0,0, screen.width, screen.height);
+                ctx.fillRect(0, 0, screen.width, screen.height);
                 
                 moveMapa(dt);
                 desenhaMapa();

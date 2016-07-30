@@ -24,7 +24,7 @@ function ImageResources(){
   this.drawCentered = function(ctx, key, x, y, w, h){
     ctx.save();
     ctx.translate(x, y);
-    ctx.drawImage(this.images[key], -w/2, -h/2);
+    ctx.drawImage(this.images[key], -w/2, -h/2, w, h);
     ctx.restore();
   }
   this.drawRotated = function(ctx, key, x, y, w, h, angle){
