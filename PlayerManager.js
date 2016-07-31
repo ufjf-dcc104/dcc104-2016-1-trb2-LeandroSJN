@@ -25,10 +25,17 @@ function KeydownPlayerManager(key)
             if(!player.jumping)
             {
                 audioLib.play("jump");
-                player.vy = -0.7*screen.height;
+                player.vy = -player.speedY;
                 player.jumping = true;
                 console.log(player.vy/layers[0].TS);
             }
+        break;
+        case 32:
+            var shot = new Shot(player.x, player.y);
+            var direction = directionalVector(shot, aim);
+            shot.vx = shot.vx*direction[0];
+            shot.vy = shot.vy*direction[1];
+            player.shots.push(shot);
         break;
     }
 }
@@ -46,4 +53,13 @@ function KeyupPlayerManager(key)
         case 38:
         break;
     }
+}
+
+function mouseclickPlayerManager(key)
+{
+    var shot = new Shot(player.x, player.y);
+    var direction = directionalVector(shot, aim);
+    shot.vx = shot.vx*direction[0];
+    shot.vy = shot.vy*direction[1];
+    player.shots.push(shot);
 }

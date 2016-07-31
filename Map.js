@@ -40,6 +40,7 @@ class Map
         {
             this.relativeX = screen.width/2;
             this.mapaX = 0;
+            this.mapaVx = 0;
         }
     }
     

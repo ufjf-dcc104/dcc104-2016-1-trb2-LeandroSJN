@@ -13,6 +13,9 @@ class Player
         this.ax = 0;
         this.ay = 0;
         this.jumping = false;
+        this.shots = [];
+        this.speedX = 0.5*screen.height;
+        this.speedY = 0.7*screen.height;
     }
     
     Move(dt, mapa)
@@ -34,7 +37,6 @@ class Player
                 this.jumping = false;
             }
         }
-        console.log(this.jumping);
         this.y = this.y + this.vy * dt;
     }
     

@@ -65,10 +65,10 @@ function KeydownMapManager(key)
         switch(key)
         {
             case 37:
-                if(layers[activeLayer].mapaX != 0) layers[activeLayer].mapaVx = 300;
+                if(layers[activeLayer].mapaX != 0) layers[activeLayer].mapaVx = player.speedX;
             break;
             case 39:
-                layers[activeLayer].mapaVx = -300;
+                layers[activeLayer].mapaVx = -player.speedX;
             break;
             case 38:
             break;

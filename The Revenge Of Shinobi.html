@@ -12,11 +12,15 @@
 		</style>
 		<script src="AudioResources.js"></script>
         <script src="ImageResources.js"></script>
+        <script src="Functions.js"></script>
         <script src="Controls.js"></script>
         <script src="GameObject.js"></script>
+        <script src="Aim.js"></script>
+        <script src="Shot.js"></script>
         <script src="Player.js"></script>
         <script src="Map.js"></script>
         <script src="Level1.js"></script>
+        <script src="ShotManager.js"></script>
         <script src="PlayerManager.js"></script>
         <script src="MapManager.js"></script>
 	</head>
@@ -28,17 +32,20 @@
 	<script>
 		
         var screen = document.getElementsByTagName("canvas")[0];
+        document.getElementsByTagName("canvas")[0].style.cursor = "none";
 		var ctx = screen.getContext("2d");
         document.body.style.overflow = 'hidden';
         screen.width  = window.innerWidth;
         screen.height = window.innerHeight;
         
-		var fps = 120;
+		var fps = 180;
 		var dt = 1/fps;
         var G = 0.8*screen.height;
         var audioLib = new AudioResources();
         var imgLib = new ImageResources();
         var level1 = true;
+        var aim = new Aim();
+    
             
         StartLevel1();
         
@@ -50,12 +57,15 @@
                 
             UpdateLevel1();
             DrawLevel1();
+            
+            aim.Move(mousePos.x, mousePos.y);
+            aim.Draw();
 		}
         
         setInterval(Update, 1000/fps);
         addEventListener("keydown", keydown);
         addEventListener("keyup", keyup);
-        screen.addEventListener("click", doSomething, false);
+        screen.addEventListener("click", mouseclick, false);
         screen.addEventListener('mousemove', function(evt) {
             mousePos = getMousePos(screen, evt);
         }, false);
