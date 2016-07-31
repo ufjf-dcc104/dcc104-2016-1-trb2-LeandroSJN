@@ -6,8 +6,6 @@ class Player
         this.h = screen.height/7;
         this.x = screen.width/2;
         this.y = 6*screen.height/7 - screen.height/14 - 1;
-        this.relativeX = this.x;
-        this.relativeY = this.y;
         this.xi = 0;
         this.yi = 0;
         this.vx = 0;
@@ -23,13 +21,13 @@ class Player
         this.x = this.x + this.vx * dt;
         this.vy = this.vy + this.ay * dt + G * dt;
 
-        this.xi = Math.floor(this.relativeX / layers[0].TS);
-        this.yi = Math.floor(this.y / layers[0].TS);
+        this.xi = Math.floor(layers[activeLayer].relativeX / layers[activeLayer].TS);
+        this.yi = Math.floor(this.y / layers[activeLayer].TS);
         
         if(mapa[this.yi + 1][this.xi])
         {
             var foot = this.y + this.h / 2;
-            var top = (this.yi + 1) * layers[0].TS;
+            var top = (this.yi + 1) * layers[activeLayer].TS;
             this.vy = Math.min(this.vy, Math.abs((top - foot)) / dt);
             if(this.vy == 0)
             {
@@ -48,7 +46,7 @@ class Player
         imgLib.drawCentered(ctx, "stoped", this.x, this.y, this.w, this.h);
 
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.xi * layers[0].TS + layers[0].mapaX, this.yi * layers[0].TS, layers[0].TS, layers[0].TS);
+        ctx.strokeRect(this.xi * layers[activeLayer].TS + layers[activeLayer].mapaX, this.yi * layers[activeLayer].TS, layers[activeLayer].TS, layers[activeLayer].TS);
 
         ctx.fillStyle = "yellow";
         ctx.fillRect(this.x - 5, this.y - 5, 10, 10);

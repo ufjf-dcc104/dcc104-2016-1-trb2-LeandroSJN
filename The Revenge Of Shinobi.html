@@ -14,8 +14,8 @@
         <script src="ImageResources.js"></script>
         <script src="Controls.js"></script>
         <script src="GameObject.js"></script>
-        <script src="Map.js"></script>
         <script src="Player.js"></script>
+        <script src="Map.js"></script>
         <script src="Level1.js"></script>
         <script src="PlayerManager.js"></script>
         <script src="MapManager.js"></script>
@@ -33,7 +33,7 @@
         screen.width  = window.innerWidth;
         screen.height = window.innerHeight;
         
-		var fps = 60;
+		var fps = 120;
 		var dt = 1/fps;
         var G = 0.8*screen.height;
         var audioLib = new AudioResources();
@@ -49,6 +49,7 @@
             ctx.fillRect(0, 0, screen.width, screen.height);
                 
             UpdateLevel1();
+            DrawLevel1();
 		}
         
         setInterval(Update, 1000/fps);
