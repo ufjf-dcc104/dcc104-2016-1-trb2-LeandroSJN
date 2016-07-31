@@ -12,8 +12,13 @@
 		</style>
 		<script src="AudioResources.js"></script>
         <script src="ImageResources.js"></script>
+        <script src="Controls.js"></script>
         <script src="GameObject.js"></script>
         <script src="Map.js"></script>
+        <script src="Player.js"></script>
+        <script src="Level1.js"></script>
+        <script src="PlayerManager.js"></script>
+        <script src="MapManager.js"></script>
 	</head>
 	<body>
 	<canvas width="1280" height="650">
@@ -28,101 +33,32 @@
         screen.width  = window.innerWidth;
         screen.height = window.innerHeight;
         
-        //Variaveis
-        {
-            
 		var fps = 60;
 		var dt = 1/fps;
-        var inGame = true;
-        var mousePos = 0;
-            
-        var audioLib = new AudioResources(12);
-        audioLib.load("jump", "sound/Cartoon Hop-SoundBible.com-553158131.mp3");
-            
+        var G = 0.8*screen.height;
+        var audioLib = new AudioResources();
         var imgLib = new ImageResources();
-        imgLib.addImage("stoped", "img/stoped.png");
-        
-        }
-    
-        //Mouse
-        {
+        var level1 = true;
             
-        function getMousePos(canvas, evt)
-        {
-            var rect = canvas.getBoundingClientRect();
-            return {
-              x: evt.clientX - rect.left,
-              y: evt.clientY - rect.top
-            };
-        }
+        StartLevel1();
         
+		function Update()
+        {
+            ctx.fillStyle = "black";
+            ctx.clearRect(0,0, screen.width, screen.height);
+            ctx.fillRect(0, 0, screen.width, screen.height);
+                
+            UpdateLevel1();
+		}
+        
+        setInterval(Update, 1000/fps);
+        addEventListener("keydown", keydown);
+        addEventListener("keyup", keyup);
+        screen.addEventListener("click", doSomething, false);
         screen.addEventListener('mousemove', function(evt) {
             mousePos = getMousePos(screen, evt);
         }, false);
         
-        }
-        
-        
-		function Update()
-        {
-            if(inGame)
-            {
-                //Limpar a screen
-                ctx.fillStyle = "black";
-                ctx.clearRect(0,0, screen.width, screen.height);
-                ctx.fillRect(0, 0, screen.width, screen.height);
-                
-                moveMapa(dt);
-                desenhaMapa();
-                movePC(dt);
-                desenhaPC();
-            }
-		}
-        
-		function teclaPressionada(e)
-        {
-            freia = false;
-			console.log("Tecla Pressionada: " + e.keyCode);
-			switch(e.keyCode)
-            {
-				case 32:
-				break;
-				case 65:
-				break;
-				case 68:
-				break;
-				case 87:
-				break;
-				case 83:
-				break;
-			}
-		}
-        
-        screen.addEventListener("click", doSomething, false);
-        function doSomething(e)
-        {
-            
-        }
-        
-		function teclaSolta(e)
-        {
-			console.log("Tecla Solta: " + e.keyCode);
-			switch(e.keyCode)
-            {
-				case 65:
-                break;
-				case 68:
-				break;
-				case 87:
-                break;
-				case 83:
-				break;
-			}
-		}
-        
-		setInterval(Update, 1000/fps);
-		addEventListener("keydown", teclaPressionada);
-		addEventListener("keyup", teclaSolta);
 	</script>
 	</body>
 </html>
