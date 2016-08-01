@@ -7,6 +7,7 @@ function StartLevel1()
     StartMapManager();
     StartPlayerManager();
     StartShotManager();
+    StartEnemyManager();
 }
     
 function UpdateLevel1()
@@ -14,6 +15,7 @@ function UpdateLevel1()
     UpdateMapManager();
     UpdatePlayerManager();
     UpdateShotManager();
+    UpdateEnemyManager();
 }
 
 function DrawLevel1()
@@ -27,6 +29,10 @@ function DrawLevel1()
         player.shots[i].Draw();
     }
     player.Draw();
+    for(var i in enemies)
+    {
+        enemies[i].Draw();
+    }
     for(var i = activeLayer + 1; i < totalLayers; i++)
     {
         layers[i].DrawMap();

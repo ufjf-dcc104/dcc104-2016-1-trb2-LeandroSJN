@@ -22,11 +22,11 @@ function KeydownPlayerManager(key)
             //if(layers[activeLayer].mapaX < 0) player.ay = -100;
         break;
         case 38:
-            if(!player.jumping)
+            if(player.state != 2)
             {
                 audioLib.play("jump");
                 player.vy = -player.speedY;
-                player.jumping = true;
+                player.state = 2;
                 console.log(player.vy/layers[0].TS);
             }
         break;

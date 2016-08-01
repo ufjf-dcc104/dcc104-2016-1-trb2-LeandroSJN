@@ -9,3 +9,11 @@ function directionalVector(object1, object2)
     vector[1] = vector[1]/mod;
     return vector;
 }
+
+function distance(object1, object2)
+{
+    var x = object2.x - object1.x;
+    var y = object2.y - object1.y;
+    var mod = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    return mod;
+}
