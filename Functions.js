@@ -17,3 +17,25 @@ function distance(object1, object2)
     var mod = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     return mod;
 }
+
+function angle(object)
+{
+    var mod = Math.sqrt(Math.pow(object.vx, 2) + Math.pow(object.vy, 2));
+    var ang = Math.acos((object.vx)/mod);
+    if(object.vy < 0)
+    {
+        ang = -ang;
+    }
+    return ang;
+}
+
+function quadCollision(object1, object2)
+{
+    if(object1.collider.x < object2.collider.x + object2.collider.w &&
+        object1.collider.x + object1.collider.w > object2.collider.x &&
+        object1.collider.y < object2.collider.y + object2.collider.h &&
+        object1.collider.h + object1.collider.y > object2.collider.y)
+    {
+        return true;
+    }
+}

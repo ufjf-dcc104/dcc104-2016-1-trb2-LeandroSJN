@@ -35,6 +35,7 @@ function KeydownPlayerManager(key)
             var direction = directionalVector(shot, aim);
             shot.vx = shot.vx*direction[0];
             shot.vy = shot.vy*direction[1];
+            shot.ang = angle(shot);
             player.shots.push(shot);
         break;
     }
@@ -57,9 +58,14 @@ function KeyupPlayerManager(key)
 
 function mouseclickPlayerManager(key)
 {
-    var shot = new Shot(player.x, player.y);
-    var direction = directionalVector(shot, aim);
-    shot.vx = shot.vx*direction[0];
-    shot.vy = shot.vy*direction[1];
-    player.shots.push(shot);
+    if(player.ammo != 0)
+    {
+        var shot = new Shot(player.x, player.y);
+        var direction = directionalVector(shot, aim);
+        shot.vx = shot.vx*direction[0];
+        shot.vy = shot.vy*direction[1];
+        shot.ang = angle(shot);
+        player.shots.push(shot);
+        player.ammo--;
+    }
 }

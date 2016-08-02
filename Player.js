@@ -13,9 +13,14 @@ class Player
         this.ax = 0;
         this.ay = 0;
         this.state = 1;
+        this.active = true;
+        this.hp = 100;
+        this.ammo = 100;
+        this.maxAmmo = 100;
         this.shots = [];
         this.speedX = 0.5*screen.height;
         this.speedY = 0.7*screen.height;
+        this.collider = new BoxCollider(this.x, this.y, this.w/2, this.h);
     }
     
     Move(dt, mapa)
@@ -38,12 +43,14 @@ class Player
             }
         }
         this.y = this.y + this.vy * dt;
+        
+        this.collider.Move(this.x, this.y);
     }
     
     Draw()
     {
-        ctx.fillStyle = "blue";
-        ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        ctx.fillStyle = "rgb(255, 255, 255)";
+        //ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
         imgLib.drawCentered(ctx, "stoped", this.x, this.y, this.w, this.h);
 
@@ -52,5 +59,7 @@ class Player
 
         ctx.fillStyle = "yellow";
         ctx.fillRect(this.x - 5, this.y - 5, 10, 10);
+        
+        this.collider.Draw();
     }
 };

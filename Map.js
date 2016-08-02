@@ -3,7 +3,7 @@ class Map
     constructor(id, vx, map, size, color)
     {
         this.id = id;
-        this.TS = screen.height/7;          
+        this.TS = screen.height/7;
         this.mapaX = 0;
         this.mapaVx = vx;
         this.mapaAx = 0;

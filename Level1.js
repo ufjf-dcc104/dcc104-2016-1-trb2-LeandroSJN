@@ -8,6 +8,7 @@ function StartLevel1()
     StartPlayerManager();
     StartShotManager();
     StartEnemyManager();
+    StartInterface();
 }
     
 function UpdateLevel1()
@@ -16,6 +17,7 @@ function UpdateLevel1()
     UpdatePlayerManager();
     UpdateShotManager();
     UpdateEnemyManager();
+    UpdateInterface();
 }
 
 function DrawLevel1()
@@ -31,12 +33,21 @@ function DrawLevel1()
     player.Draw();
     for(var i in enemies)
     {
+        for(var j in enemies[i].shots)
+        {
+            enemies[i].shots[j].Draw();
+        }
         enemies[i].Draw();
+    }
+    for(var i in enemiesShots)
+    {
+        enemiesShots[i].Draw();
     }
     for(var i = activeLayer + 1; i < totalLayers; i++)
     {
         layers[i].DrawMap();
     }
+    DrawInterface();
 }
 
 function KeydownLevel1(key)
@@ -44,6 +55,7 @@ function KeydownLevel1(key)
     KeydownMapManager(key);
     KeydownPlayerManager(key);
     KeydownShotManager(key);
+    KeydownInterface(key);
 }
 
 function KeyupLevel1(key)
@@ -51,9 +63,11 @@ function KeyupLevel1(key)
     KeyupMapManager(key);
     KeyupPlayerManager(key);
     KeyupShotManager(key);
+    KeyupInterface(key);
 }
 
 function mouseclickLevel1(key)
 {
     mouseclickPlayerManager(key);
+    mouseclickInterface(key);
 }
