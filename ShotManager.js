@@ -2,7 +2,7 @@ var enemiesShots = [];
 
 function StartShotManager()
 {
-    
+    imgLib.addImage("kunai", "img/kunai.png");
 }
 
 function removeInvisibleShot(shotsVector, shot, i)

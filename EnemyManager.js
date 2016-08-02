@@ -2,12 +2,12 @@ var spawnTime = 0;
 
 function StartEnemyManager()
 {
-    
+    imgLib.addImage("enemy", "img/enemy.png");
 }
 
 function spawnEnemy()
 {
-    if(spawnTime >= 1)
+    if(spawnTime >= 5)
     {
         var enemy = new Enemy(screen.width, 0);
         enemies.push(enemy);
@@ -61,7 +61,7 @@ function UpdateEnemyManager()
         
         enemies[i].Move();
         
-        if(enemies[i].shotTime >= 1)
+        if(enemies[i].shotTime >= 1.5)
         {
             var shot = new Shot(enemies[i].x, enemies[i].y);
             var direction = directionalVector(shot, player);

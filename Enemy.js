@@ -27,7 +27,7 @@ class Enemy
         this.xi = Math.floor((this.x -layers[activeLayer].mapaX) / layers[activeLayer].TS);
         this.yi = Math.floor(this.y / layers[activeLayer].TS);
         
-        if(layers[activeLayer].mapa[this.yi + 1][this.xi])
+        if(layers[activeLayer].mapa[this.yi + 1][this.xi] == 2 || layers[activeLayer].mapa[this.yi + 1][this.xi] == 1)
         {
             var foot = this.y + this.h / 2;
             var top = (this.yi + 1) * layers[activeLayer].TS;
@@ -47,7 +47,7 @@ class Enemy
         ctx.fillStyle = "rgb(127, 127, 127)";
         //ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 
-        //imgLib.drawCentered(ctx, "stoped", this.x, this.y, this.w, this.h);
+        imgLib.drawCentered(ctx, "enemy", this.x, this.y, this.w, this.h);
 
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.xi * layers[activeLayer].TS + layers[activeLayer].mapaX, this.yi * layers[activeLayer].TS, layers[activeLayer].TS, layers[activeLayer].TS);
