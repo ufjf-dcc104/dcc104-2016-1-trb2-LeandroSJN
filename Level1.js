@@ -9,6 +9,8 @@ function StartLevel1()
     StartShotManager();
     StartEnemyManager();
     StartInterface();
+    audioLib.load("theShinobi", "sound/theShinobi.mp3");
+    audioLib.play("theShinobi");
 }
     
 function UpdateLevel1()

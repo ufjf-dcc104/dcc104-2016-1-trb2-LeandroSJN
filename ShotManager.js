@@ -51,6 +51,13 @@ function UpdateShotManager()
             {
                 enemiesShots.splice(i,1);
                 player.hp -= 10;
+                if(!player.damaged)
+                    player.vy = -player.speedY/3;
+                player.damaged = true;
+                if(!staticCamera)
+                    layers[activeLayer].mapaVx = player.speedX;
+                else
+                    player.vx = -player.speedX;
                 break;
             }
         }

@@ -49,6 +49,6 @@ class Shot
         ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, 1, 1);
         
-        this.collider.Draw();
+        //this.collider.Draw();
     }
 }

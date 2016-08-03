@@ -2,7 +2,10 @@ var spawnTime = 0;
 
 function StartEnemyManager()
 {
-    imgLib.addImage("enemy", "img/enemy.png");
+    imgLib.addImage("enemyStopped", "img/enemyStopped.png");
+    imgLib.addImage("enemyShoting", "img/enemyShoting.png");
+    imgLib.addImage("enemyJumping", "img/enemyJumping.png");
+    imgLib.addImage("enemyJumpingShoting", "img/enemyJumpingShoting.png");
 }
 
 function spawnEnemy()
@@ -19,18 +22,43 @@ function spawnEnemy()
     }
 }
 
-function UpdateEnemyManager()
+//1-stoped, 2-juming, 3-shoting, 4-jumping shoting
+function enemiesStateManager(enemy)
 {
-    spawnEnemy();
-    
+    if(enemy.shotTime >= enemy.shotAnimation)
+    {
+        if(enemy.onPlatform)
+        {
+            enemy.state = 1;
+        }
+        else
+        {
+            enemy.state = 2;
+        }
+    }
+    else
+    {
+        if(enemy.onPlatform)
+        {
+            enemy.state = 3;
+        }
+        else
+        {
+            enemy.state = 4;
+        }
+    }
+}
+
+function enemiesIa()
+{
     for(var i in enemies)
     {
-        if(enemies[i].state == 1)
+        if(enemies[i].onPlatform)
         {
             if(distance(enemies[i], player) < screen.height/4)
             {
                 enemies[i].vy = -player.speedY;
-                enemies[i].state = 2;
+                enemies[i].onPlatform = false;
                 if(enemies[i].x - player.x < 0)
                 {
                     enemies[i].vx = -0.5*player.speedX;
@@ -43,7 +71,7 @@ function UpdateEnemyManager()
             else if(distance(enemies[i], player) > screen.height)
             {
                 enemies[i].vy = -player.speedY;
-                enemies[i].state = 2;
+                enemies[i].onPlatform = false;
                 if(enemies[i].x - player.x < 0)
                 {
                     enemies[i].vx = 0.5*player.speedX;
@@ -61,7 +89,9 @@ function UpdateEnemyManager()
         
         enemies[i].Move();
         
-        if(enemies[i].shotTime >= 1.5)
+        enemiesStateManager(enemies[i]);
+        
+        if(enemies[i].shotTime >= enemies[i].shotAnimation + 1)
         {
             var shot = new Shot(enemies[i].x, enemies[i].y);
             var direction = directionalVector(shot, player);
@@ -70,6 +100,8 @@ function UpdateEnemyManager()
             shot.ang = angle(shot);
             enemiesShots.push(shot);
             
+            audioLib.play("kunai");
+            
             enemies[i].shotTime = 0;
         }
         else
@@ -77,4 +109,10 @@ function UpdateEnemyManager()
             enemies[i].shotTime += 1*dt;
         }
     }
+}
+
+function UpdateEnemyManager()
+{
+    spawnEnemy();
+    enemiesIa();
 }
