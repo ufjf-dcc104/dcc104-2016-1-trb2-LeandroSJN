@@ -1,4 +1,6 @@
 var spawnTime = 0;
+var totalEnemies = 0;
+var maxEnemies = 5;
 
 function StartEnemyManager()
 {
@@ -10,10 +12,11 @@ function StartEnemyManager()
 
 function spawnEnemy()
 {
-    if(spawnTime >= 5)
+    if(spawnTime >= 5 && totalEnemies < maxEnemies)
     {
         var enemy = new Enemy(screen.width, 0);
         enemies.push(enemy);
+        totalEnemies++;
         spawnTime = 0;
     }
     else
@@ -55,7 +58,7 @@ function enemiesIa()
     {
         if(enemies[i].onPlatform)
         {
-            if(distance(enemies[i], player) < screen.height/4)
+            if(distance(enemies[i], player) < 0.25*screen.height)
             {
                 enemies[i].vy = -player.speedY;
                 enemies[i].onPlatform = false;
@@ -68,7 +71,7 @@ function enemiesIa()
                     enemies[i].vx = 0.5*player.speedX;
                 }
             }
-            else if(distance(enemies[i], player) > screen.height)
+            else if(distance(enemies[i], player) > 0.7*screen.height)
             {
                 enemies[i].vy = -player.speedY;
                 enemies[i].onPlatform = false;

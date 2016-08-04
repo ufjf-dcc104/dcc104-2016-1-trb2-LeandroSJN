@@ -16,7 +16,7 @@ class Player
         this.active = true;
         this.onPlatform = true;
         this.hp = 100;
-        this.ammo = 100;
+        this.ammo = 20;
         this.maxAmmo = 100;
         this.shots = [];
         this.speedX = 0.3*screen.height;

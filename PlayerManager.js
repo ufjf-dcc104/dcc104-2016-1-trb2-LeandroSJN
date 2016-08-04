@@ -5,8 +5,8 @@ function StartPlayerManager()
     imgLib.addImage("walking", "img/walking.png");
     imgLib.addImage("shoting", "img/shoting.png");
     imgLib.addImage("jumpingShoting", "img/jumpingShoting.png");
-    audioLib.load("landing", "sound/landing.mp3");
-    audioLib.load("kunai", "sound/kunai.mp3");
+    audioLib.load("landing", "sound/landing.mp3", false);
+    audioLib.load("kunai", "sound/kunai.mp3", false);
     player = new Player();
 }
 
@@ -48,6 +48,10 @@ function playerStateManager()
             player.state = 4;
         }
     }
+    if(player.hp <= 0)
+    {
+        inGame = false;
+    }
     player.shotTime += 1*dt;
 }
 
@@ -64,10 +68,6 @@ function UpdatePlayerManager()
             player.x = player.w/2;
             player.vx = 0;
         }
-    }
-    if(layers[activeLayer].mapaX >= 0 && player.x < screen.width/2)
-    {
-        //staticCamera = false;
     }
     playerStateManager();
 }
@@ -87,7 +87,6 @@ function KeydownPlayerManager(key)
             case 87:
                 if(player.state == 1 || player.state == 3 )
                 {
-                    console.log(player.state, "jump");
                     player.vy = -player.speedY;
                     player.state = 2;
                     player.onPlatform = false;
@@ -131,7 +130,16 @@ function mouseclickPlayerManager(key)
     {
         if(player.ammo != 0)
         {
-            var shot = new Shot(player.x, player.y);
+            var shot;
+            if(aim.x < player.x)
+            {
+                shot = new Shot(player.x - 0.3*player.w, player.y - 0.2*player.h);
+            }
+            else
+            {
+                shot = new Shot(player.x + 0.3*player.w, player.y - 0.2*player.h);
+            }
+            
             var direction = directionalVector(shot, aim);
             shot.vx = shot.vx*direction[0];
             shot.vy = shot.vy*direction[1];

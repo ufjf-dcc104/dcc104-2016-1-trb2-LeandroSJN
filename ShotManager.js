@@ -37,6 +37,7 @@ function UpdateShotManager()
                 {
                     enemies.splice(j,1);
                     player.shots.splice(i,1);
+                    totalEnemies--;
                     break;
                 }
             }
