@@ -1,3 +1,10 @@
+<!--//////////////////////////////////////////////////////////////////////////
+// Autor: Leandro Dornela Ribeiro
+// Criado: 2015
+// Modificado: 14/07/2017 - Documentação
+//////////////////////////////////////////////////////////////////////////////-->
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,71 +17,117 @@
 				margin: auto;
 			}
 		</style>
-		<script src="AudioResources.js"></script>
-        <script src="ImageResources.js"></script>
-        <script src="Functions.js"></script>
-        <script src="Controls.js"></script>
-        <script src="Interface.js"></script>
-        <script src="GameObject.js"></script>
-        <script src="BoxCollider.js"></script>
-        <script src="Aim.js"></script>
-        <script src="Shot.js"></script>
-        <script src="Player.js"></script>
-        <script src="Enemy.js"></script>
-        <script src="Map.js"></script>
-        <script src="Level1.js"></script>
-        <script src="ShotManager.js"></script>
-        <script src="PlayerManager.js"></script>
-        <script src="EnemyManager.js"></script>
-        <script src="MapManager.js"></script>
-	</head>
-	<body>
-	<canvas width="1280" height="650">
-		Seu navegador não tem suporte ao canvas!
-		Atualize seu navegador.
-	</canvas>
-	<script>
 		
-        var screen = document.getElementsByTagName("canvas")[0];
-        document.getElementsByTagName("canvas")[0].style.cursor = "none";
-		var ctx = screen.getContext("2d");
-        document.body.style.overflow = 'hidden';
-        screen.width  = window.innerWidth;
-        screen.height = window.innerHeight;
+        <link rel="stylesheet" type="text/css" href="style.css">
         
-		var fps = 60;
-		var dt = 1/fps;
-        var G = 1.2*screen.height;
-        var audioLib = new AudioResources();
-        var imgLib = new ImageResources();
-        var level1 = true;
-        var aim = new Aim();
-        var staticCamera = false;
-    
+        <!--Engine Scripts-->
+        <script src="Engine/Templates/GameObject.js"></script>
+        <script src="Engine/Templates/Level.js"></script>
+        <script src="Engine/Templates/Script.js"></script>
+        <script src="Engine/Templates/Camera.js"></script>
+
+        <script src="Engine/Audio/AudioResources.js"></script>
+        
+        <script src="Engine/Graphics/ImageResources.js"></script>
+        <script src="Engine/Graphics/ParticleElement.js"></script>
+        <script src="Engine/Graphics/Particle.js"></script>
+        <script src="Engine/Graphics/SpriteAnimation.js"></script>
+        <script src="Engine/Graphics/AnimationController.js"></script>
+        <script src="Engine/Graphics/Transform.js"></script>
+        <script src="Engine/Graphics/vec2.js"></script>
+        <script src="Engine/Graphics/vec3.js"></script>
+
+        <script src="Engine/Util/Functions.js"></script>
+        <script src="Engine/Util/Controls.js"></script>
+        
+        <script src="Engine/Physics/Collider.js"></script>
+        <script src="Engine/Physics/BoxCollider.js"></script>
+        <script src="Engine/Physics/CircleCollider.js"></script>
+        <script src="Engine/Physics/Rigidbody.js"></script>
+        <script src="Engine/Physics/CollisionSystem.js"></script>
+        <script src="Engine/Physics/Grid.js"></script>
+
+        <script src="Engine/System.js"></script>
+        
+        
+        <!--Game Scripts-->
+        <script src="Game/Prefabs/Aim.js"></script>
+        <script src="Game/Prefabs/Shot.js"></script>
+        <script src="Game/Prefabs/PlayerShot.js"></script>
+        <script src="Game/Prefabs/EnemyShot.js"></script>
+        <script src="Game/Prefabs/Player.js"></script>
+        <script src="Game/Prefabs/Enemy.js"></script>
+        <script src="Game/Prefabs/Map.js"></script>
+        <script src="Game/Level1/Level1.js"></script>
+        <script src="Game/Level1/CameraLevel1.js"></script>
+        <script src="Game/Prefabs/Health.js"></script>
+        <script src="Game/Prefabs/RangedAttack.js"></script>
+        <script src="Game/Prefabs/BodyAttack.js"></script>
+        <script src="Game/LevelList.js"></script>
+        
+	</head>
+	
+    <body>
+        <canvas id = "canvasPrincipal">
+            Seu navegador não tem suporte ao canvas!
+            Atualize seu navegador.
+        </canvas>
+        <canvas id = "canvasParticles"></canvas>
+        <canvas id = "canvasInterface"></canvas>
+        <canvas id = "canvasMap"></canvas>
+        
+        <script>
+            // Inicializacao do canvas.
+            var screen = document.getElementById("canvasPrincipal");
+            var ctx = screen.getContext("2d");
             
-        StartLevel1();
-        
-		function Update()
-        {
-            ctx.fillStyle = "black";
-            ctx.clearRect(0,0, screen.width, screen.height);
-            ctx.fillRect(0, 0, screen.width, screen.height);
-                
-            UpdateLevel1();
-            DrawLevel1();
-            
-            aim.Move(mousePos.x, mousePos.y);
-            aim.Draw();
-		}
-        
-        setInterval(Update, 1000/fps);
-        addEventListener("keydown", keydown);
-        addEventListener("keyup", keyup);
-        screen.addEventListener("click", mouseclick, false);
-        screen.addEventListener('mousemove', function(evt) {
-            mousePos = getMousePos(screen, evt);
-        }, false);
-        
-	</script>
+            screen.width  = window.innerWidth;
+            screen.height = window.innerHeight;
+            HideCursor();
+            HideBars();
+
+            // Variaveis.
+            var now = 0;
+            var then = 0;
+            var delta = 0;
+
+            // Inicializacao do sistema.
+            var system = new System();
+            var collisionSystem = new CollisionSystem();
+
+            // Carrega os leveis.
+            LevelList();
+
+            // Carrega o level inicial.
+            system.LoadLevel(system.initialLevel);
+
+            // Loop principal.
+            function Update(time)
+            {  
+                system.timeSinceStart = time;
+
+                requestAnimationFrame(Update);
+
+                now = time;
+                delta = now - then;
+                system.deltaTime = delta/1000;
+
+                if(delta > system.interval)
+                {
+                    system.Update();
+                    then = time;
+                    system.Draw();
+                }
+            }
+
+            Update();
+
+            // Event listeners para os controles.
+            addEventListener("keydown", keydown);
+            addEventListener("keyup", keyup);
+            screen.addEventListener("click", mouseclick, false);
+            screen.addEventListener('mousemove', function(evt) { system.mousePos = getMousePos(screen, evt); }, false);
+
+        </script>
 	</body>
 </html>
