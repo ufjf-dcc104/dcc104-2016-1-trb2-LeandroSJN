@@ -2,6 +2,8 @@
 // Autor: Leandro Dornela Ribeiro
 // Criado: 2016
 // Modificado: 13/07/2017 - Documentação
+//             18/07/2017 - Correção de bug no deslocamento do colisor,
+//                          relacionado a ordem de chamada.
 //////////////////////////////////////////////////////////////////////////
 
 /**
@@ -53,6 +55,16 @@ class CollisionSystem
             system.gameObjects[i].object.transform.UpdateMatrixPossition();
             system.gameObjects[i].object.collisionResult = new Result(false, null);
             
+            // Atualisa o rigidbody.
+            try
+            {
+                system.gameObjects[i].object.rigidbody.Update();
+            }
+            catch (error)
+            {
+                system.DebugWarn("THE OBJECT DONT HAVE A RIGIDBODY!");
+            }
+
             // Atualisa a collisor do objeto se ele o tiver.
             try
             {
@@ -67,15 +79,6 @@ class CollisionSystem
             catch (error)
             {
                 system.DebugWarn("THE OBJECT DONT HAVE A COLLIDER!");
-            }
-
-            try
-            {
-                system.gameObjects[i].object.rigidbody.Update();
-            }
-            catch (error)
-            {
-                system.DebugWarn("THE OBJECT DONT HAVE A RIGIDBODY!");
             }
         }
         

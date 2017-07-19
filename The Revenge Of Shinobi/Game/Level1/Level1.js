@@ -15,8 +15,7 @@ class Level1 extends Level
         system.AddGameObject(new Player(5), "Player", true);
         //system.AddGameObject(new Layer("background",0,screen.height/2,0,0,1280,720,10,true, 0));
         //system.AddGameObject(new Enemy(800, 300));
-        system.AddGameObject(new Camera(), "Camera", true);
-        system.AddScript(new CameraLevel1());
+        system.AddGameObject(new CameraLevel1(), "Camera", true);
         
         system.audioLib.Play("theShinobi");
     }

@@ -56,6 +56,9 @@ class Camera extends GameObject
     // Move todos os objetos de acordo com a velociade da camera.
     MoveCamera()
     {
+        this.SetAcceleration();
+        this.SetSpeed();
+
         for(var i = 0; i < system.gameObjects.length; i++)
         {
             system.gameObjects[i].object.transform.possition.x += cutDecimal((this.rigidbody.speed.x/system.gameObjects[i].object.depth) * system.deltaTime);
@@ -66,6 +69,29 @@ class Camera extends GameObject
 
         collisionSystem.grid.transform.possition.x += cutDecimal((this.rigidbody.speed.x) * system.deltaTime);
         collisionSystem.grid.transform.possition.y += cutDecimal((this.rigidbody.speed.y) * system.deltaTime);
+
+        this.SetPossition();
+    }
+
+
+    // Atribui aceleração customizada a camera.
+    SetAcceleration()
+    {
+
+    }
+
+
+    // Atribui velocidade customizada a camera.
+    SetSpeed()
+    {
+
+    }
+
+
+    // Atribui posição customizada a camera.
+    SetPossition()
+    {
+
     }
     
     
