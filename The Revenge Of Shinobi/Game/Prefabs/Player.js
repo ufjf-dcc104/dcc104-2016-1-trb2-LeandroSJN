@@ -17,7 +17,7 @@ class Player extends GameObject
         
         // Componentes.
         this.transform.possition.x = screen.width/2;
-        this.transform.possition.y = 6*system.globalTileSize - screen.height/14;
+        this.transform.possition.y = screen.height/10;
         this.transform.width = system.globalTileSize;
         this.transform.height = system.globalTileSize;
         
@@ -38,9 +38,9 @@ class Player extends GameObject
         this.animation.AddTransition("pulando", "parado", ["speed.y", "speed.x"], ['==', '=='], [0, 0]);
         this.animation.AddTransition("pulando", "andando", ["speed.y", "speed.x"], ['==', '!='], [0, 0]);
 
-        this.AddRenderComponent("parado", new SpriteAnimation("stopped", 256, 256, 2, 2, 0, 0, 0, 0, 0));
-        this.AddRenderComponent("andando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
-        this.AddRenderComponent("pulando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
+        //this.AddRenderComponent("parado", new SpriteAnimation("stopped", 256, 256, 2, 2, 0, 0, 0, 0, 0));
+        //this.AddRenderComponent("andando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
+        //this.AddRenderComponent("pulando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
 
         this.Start();
     }
@@ -59,8 +59,8 @@ class Player extends GameObject
                                      1000,0.1,100.71,2.0,100,100, 0,
                                      true, 100, 100, 3*Math.PI/2 - 0.5, 3*Math.PI/2);// Particle.
         
-        //system.AddGameObject(particle);// Nao sera destruida com o player.
-        this.AddComponent(particle);// Sera destruida com o player.
+        system.AddGameObject(particle);// Nao sera destruida com o player.
+        //this.AddComponent(particle);// Sera destruida com o player.
     }
     
 
@@ -83,7 +83,7 @@ class Player extends GameObject
     {
         if(this.CollideWith("PlayerShot"))
         {
-            //console.log("player hit");
+            console.log("player hit");
         }
     }
     
@@ -110,7 +110,7 @@ class Player extends GameObject
                     this.rigidbody.speed.y = -this.rigidbody.defaultSpeed.y;
                 break;
                 case 83:
-                    //this.crouched = !this.crouched;
+                    this.rigidbody.speed.y = this.rigidbody.defaultSpeed.y;
                 break;
                 case 32:
                     system.AddGameObject(this.GetComponentByType("RangedAttack").CreatePlayerShot(this));

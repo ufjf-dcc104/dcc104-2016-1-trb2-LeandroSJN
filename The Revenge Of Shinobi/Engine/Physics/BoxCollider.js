@@ -16,7 +16,9 @@ class BoxCollider extends Collider
         super(holder, width, height, relativeX, relativeY, angle);
         
         this.type = "BoxCollider"; // Tipo do colisor.
-        this.activeLayer = system.GetObjectBySpecialIndex("ActiveLayer"); // Leyer ativa atualmente.
+        this.speedBefore = new vec2(0, 0);
+        this.onCollision = false;
+        this.collisionSide;
     }
     
     
@@ -27,10 +29,8 @@ class BoxCollider extends Collider
     // Atualisa a posição do collider de acordo com a posição do holder.
     Update()
     {
-        this.transform.possition.x = this.relativePossition.x + this.holder.transform.possition.x - this.transform.width/2;
-        this.transform.possition.y = this.relativePossition.y + this.holder.transform.possition.y - this.transform.height/2;
-
-        this.activeLayer = system.GetObjectBySpecialIndex("ActiveLayer");
+        this.transform.possition.x = this.relativePossition.x + this.holder.transform.possition.x;
+        this.transform.possition.y = this.relativePossition.y + this.holder.transform.possition.y;
     }
     
     
@@ -38,118 +38,105 @@ class BoxCollider extends Collider
     Draw()
     {
         ctx.strokeStyle = "rgb(0, 255, 0)";
-        ctx.strokeRect(this.transform.possition.x, this.transform.possition.y, this.transform.width, this.transform.height);
+        ctx.strokeRect(this.transform.possition.x - this.transform.width/2, this.transform.possition.y - this.transform.height/2, this.transform.width, this.transform.height);
+
+        ctx.fillStyle = "rgb(0, 255, 0)";
+        ctx.fillRect(this.transform.possition.x - 2.5, this.transform.possition.y - 2.5, 5, 5);
     }
     
 
     //--------------------------------------------------------------------
     // Funções de deteccao de colisao.
     //--------------------------------------------------------------------
-    
-    // Verifica a colisão do objeto com a plataforma.
-    CollideWithPlatform()
+
+    Collides(collider)
     {
-        system.Debug(">START CollideWithPlatform");
-        system.Debug("Colliding " + this.holder.type);
-        system.Debug("UnderTile: " + this.activeLayer.mapa[this.holder.transform.matrixPossition.y + 1][this.holder.transform.matrixPossition.x]);
+        //if(this.holder.rigidbody.speed.x != 0 || this.holder.rigidbody.speed.y != 0)
+        if(!this.onCollision)
+        {
+            this.CillideWithCollider(collider);
+        }
+        else
+        {
+            if(this.collisionSide == "r" || this.collisionSide == "l")
+                this.holder.rigidbody.speed.x = -this.speedBefore.x/2;
+            else
+                this.holder.rigidbody.speed.y = -this.speedBefore.y/2;
+            this.onCollision = false;
+        }
+    }
 
-        if(this.activeLayer.mapa[this.holder.transform.matrixPossition.y + 1][this.holder.transform.matrixPossition.x] == 2 ||
-           this.activeLayer.mapa[this.holder.transform.matrixPossition.y + 1][this.holder.transform.matrixPossition.x] == 1)
+    CillideWithCollider(collider)
+    {
+        var dif;
+        var hWidth = this.transform.width/2;
+        var hHeight = this.transform.height/2;
+        var cWidth = collider.transform.width/2;
+        var cHeight = collider.transform.height/2;
+
+            if(this.transform.possition.y - hHeight <= collider.transform.possition.y + cHeight && this.transform.possition.y + hHeight >= collider.transform.possition.y - cHeight)
             {
-                var foot = (this.holder.transform.possition.y) + this.transform.height / 2;
-
-                // Para o calculo do top deve se fazer a compensação do deslocamento do mapa.
-                var top = ((this.holder.transform.matrixPossition.y + 1) * this.activeLayer.TS) +
-                            this.activeLayer.transform.possition.y;
-
-                top = cutDecimal(top);
-                foot = cutDecimal(foot);
-                
-                system.Debug("On platform: " + (top - foot));
-
-                this.holder.rigidbody.speed.y = cutDecimal(Math.min(this.holder.rigidbody.speed.y, Math.abs(top - foot) / system.deltaTime));
-                
-                if(this.holder.rigidbody.speed.y == this.activeLayer.rigidbody.speed.y && !this.holder.onPlatform)
+                if(this.holder.rigidbody.speed.x > 0)
                 {
-                    this.holder.onPlatform = true;
+                    dif = (collider.transform.possition.x - cWidth) - (this.transform.possition.x + hWidth);
 
-                    if(this.holder.jumping || this.holder.jumpingShoting)
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.x))
                     {
-                        system.audioLib.Play("landing");
+                        this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
+                        this.holder.rigidbody.speed.x = cutDecimal(Math.abs(dif/system.deltaTime));
+                        this.SetCollisionSide("l");
+                    }
+                }
+                else if(this.holder.rigidbody.speed.x < 0)
+                {
+                    dif = (collider.transform.possition.x + cWidth) - (this.transform.possition.x - hWidth);
+
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.x))
+                    {
+                        this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
+                        this.holder.rigidbody.speed.x = -cutDecimal(Math.abs(dif/system.deltaTime));
+                        this.SetCollisionSide("r");
                     }
                 }
             }
-            else
+            if(this.transform.possition.x - hWidth <= collider.transform.possition.x + cWidth && this.transform.possition.x + hWidth >= collider.transform.possition.x - cWidth)
             {
-                system.Debug("No platform!");
+                if(this.holder.rigidbody.speed.y > 0)
+                {
+                    dif = (collider.transform.possition.y - cHeight) - (this.transform.possition.y + hHeight);
+                    
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.y))
+                    {
+                        this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
+                        this.holder.rigidbody.speed.y = cutDecimal(Math.abs(dif/system.deltaTime));
+                        this.SetCollisionSide("u");
+                    }
+                }
+                else if(this.holder.rigidbody.speed.y < 0)
+                {
+                    dif = (collider.transform.possition.y + cHeight) - (this.transform.possition.y - hHeight);
+
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.y))
+                    {
+                        this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
+                        this.holder.rigidbody.speed.y = -cutDecimal(Math.abs(dif/system.deltaTime));
+                        this.SetCollisionSide("d");
+                    }
+                }
             }
-            system.Debug(">END CollideWithPlatform");
     }
 
-
-    //--------------------------------------------------------------------
-    // Funções de tratamento de colisao.
-    //--------------------------------------------------------------------
-
-
-    AABBResponse(collider)
+    
+    SetCollisionSide(side)
     {
-        var side = this.CollisionSide(collider);
-       
-        // Colisão cima.
-        if(side == "up")
-        {
-            
-        }
-        // Colisão direita.
-        else if(side == "right")
-        {
-
-        }
-        // Colisão baixo.
-        else if(side == "down")
-        {
-
-        }
-        // Colisão esquerda.
-        else if(side == "left")
-        {
-
-        }
+        this.onCollision = true;
+        this.collisionSide = side;
     }
 
-
-    // Retorna o lado mais provavel da colisão.
-    CollisionSide(collider)
+    
+    UnsetCollisionSide()
     {
-        var compass = [
-            new vec2(0.0, -1.0),// up
-            new vec2(1.0, 0.0),	// right
-            new vec2(0.0, 1.0),// down
-            new vec2(-1.0, 0.0)	// left
-        ]
-
-        var direction = [
-            "up",
-            "right",
-            "down",
-            "left"
-        ]
-
-        var max = 0.0;
-        var bestMatch = -1;
-
-        for(var i = 0; i < 4; i++)
-        {
-            var dotProduct = vec2.dot(vec2.directionalVector(this.transform.possition, collider.transform.possition), compass[i]);
-            
-            if(dotProduct > max)
-            {
-                max = dotProduct;
-                bestMatch = i;
-            }
-        }
-
-        return direction[bestMatch];
+        this.onCollision = false;
+        this.collisionSide = null;
     }
 }

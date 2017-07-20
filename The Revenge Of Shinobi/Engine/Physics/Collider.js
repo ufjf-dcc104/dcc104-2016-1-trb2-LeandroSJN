@@ -32,38 +32,9 @@ class Collider extends GameObject
     }
     
     
-    // TODO: Implementar a verificação de colisão para outras formas.
     // Verifica a colisão de acordo com o tipo do colisor.
     Collides(collider)
     {
-        // Colisão entre duas caixas.
-        if(this.type == "BoxCollider" && collider.type == "BoxCollider")
-        {
-            if(this.transform.possition.x < collider.transform.possition.x + collider.transform.width &&
-               this.transform.possition.x + this.transform.width > collider.transform.possition.x &&
-               this.transform.possition.y < collider.transform.possition.y + collider.transform.height &&
-               this.transform.height + this.transform.possition.y > collider.transform.possition.y)
-            {
-                return true;
-            }
-        }
         
-        
-        // Colisão entre uma caixa e um circulo.
-        else if(this.type == "BoxCollider" && collider.type == "CircleCollider")
-        {
-            
-        }
-        else if(this.type == "CircleCollider" && collider.type == "BoxCollider")
-        {
-            
-        }
-        
-        
-        // Colisão entre dois circulos.
-        else if(this.type == "CircleCollider" && collider.type == "CircleCollider")
-        {
-            
-        }
     }
 }

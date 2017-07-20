@@ -16,6 +16,14 @@ class Level1 extends Level
         //system.AddGameObject(new Layer("background",0,screen.height/2,0,0,1280,720,10,true, 0));
         //system.AddGameObject(new Enemy(800, 300));
         system.AddGameObject(new CameraLevel1(), "Camera", true);
+
+        system.AddGameObject(new TestObject(screen.width/2, screen.height/1.5, 5, 0.5));
+        system.AddGameObject(new TestObject(screen.width/4, screen.height/2, 5, 0.5));
+        system.AddGameObject(new TestObject(screen.width/1.5, screen.height/3, 5, 0.5));
+        system.AddGameObject(new TestObject(screen.width/2, screen.height, 14, 0.5));
+        system.AddGameObject(new TestObject(screen.width/2, 100, 14, 0.5));
+        system.AddGameObject(new TestObject(screen.width, screen.height/1.5, 1, 8));
+        system.AddGameObject(new TestObject(80, screen.height/1.5, 1, 8));
         
         system.audioLib.Play("theShinobi");
     }
@@ -129,9 +137,9 @@ class Level1 extends Level
         layer2.depth = 1.5;
         layer4.depth = 0.8;
 
-        system.AddGameObject(layer1);
-        system.AddGameObject(layer2);
-        system.AddGameObject(layer3, "ActiveLayer", true);
-        system.AddGameObject(layer4);
+        //system.AddGameObject(layer1);
+        //system.AddGameObject(layer2);
+        //system.AddGameObject(layer3, "ActiveLayer", true);
+        //system.AddGameObject(layer4);
     }
 }

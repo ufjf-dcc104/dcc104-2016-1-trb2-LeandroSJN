@@ -18,6 +18,8 @@ class Shot extends GameObject
 
         this.AddComponent(new Rigidbody(this, 5*system.GetObjectsByType("Player").rigidbody.defaultSpeed.x, 5*system.GetObjectsByType("Player").rigidbody.defaultSpeed.x, 0, 0, 0, 0));
         this.AddComponent(new BoxCollider(this, 0, 0, 10, 10, 0));
+
+        this.rigidbody.ignoreGravity = true;
     }
     
     
@@ -56,7 +58,7 @@ class Shot extends GameObject
             //ctx.fillRect(-this.transform.width/2, -this.transform.height/2, this.transform.width, this.transform.height);
             
             // Desenha o sprite.
-            system.imgLib.DrawCentered(ctx, "kunai", -this.transform.width/2, -this.transform.height/4, this.transform.width, this.transform.height);
+            //system.imgLib.DrawCentered(ctx, "kunai", -this.transform.width/2, -this.transform.height/4, this.transform.width, this.transform.height);
         ctx.restore();
         
         //ctx.fillStyle = "red";

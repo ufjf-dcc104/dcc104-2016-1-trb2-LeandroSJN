@@ -23,6 +23,8 @@ class Rigidbody
         this.mass = 0; // Massa do objeto.
         this.ignoreGravity = false; // Boleano para determinar se o objeto e afetado pela gravidade.
         this.ignoreCollision = false; // Ignorar quando ha uma colisao.
+        this.collisionImminent = false;
+        this.collisionReaction;
     }
     
     
@@ -34,27 +36,6 @@ class Rigidbody
     Update()
     {
         this.UpdateSpeed();
-        
-        for(var i = 0; i < this.holder.collider.length; i++)
-        {
-            if(this.holder.collider[i])
-            {
-                if(!this.ignoreCollision)
-                {
-                    this.holder.collider[i].CollideWithPlatform();
-                }
-                else
-                {
-                    system.DebugWarn(this.holder.type + " IGNORES COLLISION!");
-                }
-            }
-            else
-            {
-                system.DebugWarn(this.holder.type + " DONT HAVE A COLLIDER!");
-            }
-        }
-        
-        this.UpdatePossition();
     }
     
     

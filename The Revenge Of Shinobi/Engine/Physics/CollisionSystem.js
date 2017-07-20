@@ -52,7 +52,6 @@ class CollisionSystem
         {
             system.Debug("OBJ: " + system.gameObjects[i].object.type);
 
-            system.gameObjects[i].object.transform.UpdateMatrixPossition();
             system.gameObjects[i].object.collisionResult = new Result(false, null);
             
             // Atualisa o rigidbody.
@@ -83,6 +82,20 @@ class CollisionSystem
         }
         
         this.VerifyCollisions();
+
+        // Atualiza a posição do rigidbody.
+        for(var i = 0; i < system.gameObjects.length; i++)
+        {
+            try
+            {
+                system.gameObjects[i].object.rigidbody.UpdatePossition();
+            }
+            catch (error)
+            {
+                system.DebugWarn("THE OBJECT DONT HAVE A RIGIDBODY!");
+            }
+
+        }
 
         system.Debug("==========COLLISION SYSTEM UPDATED==========");
     }
@@ -128,25 +141,29 @@ class CollisionSystem
             {
                 for(var n = 0; n < collider2length; n++)
                 {
-                    if(grid[i][j][k].collider[m].Collides(grid[i][j][l].collider[n]))
+                    grid[i][j][k].collider[m].Collides(grid[i][j][l].collider[n]);
+                    /*if(grid[i][j][k].collider[m].Collides(grid[i][j][l].collider[n]))
                     {
                         grid[i][j][k].collisionResult = new Result(true, grid[i][j][l]);
                         grid[i][j][l].collisionResult = new Result(true, grid[i][j][k]);
 
                         //grid[i][j][k].collider[m].AABBResponse(grid[i][j][l].collider[n]);
-                    }
+                    }*/
                 }
             }
         }
         else
         {
-            if(grid[i][j][k].collider[0].Collides(grid[i][j][l].collider[0]))
+            grid[i][j][k].collider[0].Collides(grid[i][j][l].collider[0]);
+            grid[i][j][l].collider[0].Collides(grid[i][j][k].collider[0]);
+            //grid[i][j][l].collider[0].Collides(grid[i][j][k].collider[0]);
+            /*if(grid[i][j][k].collider[0].Collides(grid[i][j][l].collider[0]))
             {
                 grid[i][j][k].collisionResult = new Result(true, grid[i][j][l]);
                 grid[i][j][l].collisionResult = new Result(true, grid[i][j][k]);
 
                 //grid[i][j][k].collider[0].AABBResponse(grid[i][j][l].collider[0]);
-            }
+            }*/
         }
     }
 }

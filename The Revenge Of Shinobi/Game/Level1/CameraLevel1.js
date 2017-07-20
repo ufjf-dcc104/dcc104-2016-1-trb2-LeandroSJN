@@ -17,7 +17,7 @@ class CameraLevel1 extends Camera
 
     SetSpeed()
     {
-        this.rigidbody.speed.y = -cutDecimal(this.player.rigidbody.speed.y/2);
+        //this.rigidbody.speed.y = -cutDecimal(this.player.rigidbody.speed.y/2);
     }
     
     
@@ -32,10 +32,10 @@ class CameraLevel1 extends Camera
         switch(key)
         {
             case 65:
-                this.rigidbody.speed.x = this.player.rigidbody.defaultSpeed.x;
+                //this.rigidbody.speed.x = this.player.rigidbody.defaultSpeed.x;
             break;
             case 68:
-                this.rigidbody.speed.x = -this.player.rigidbody.defaultSpeed.x;
+                //this.rigidbody.speed.x = -this.player.rigidbody.defaultSpeed.x;
             break;
             case 87:
                 this.rigidbody.speed.y = this.rigidbody.defaultSpeed.x;

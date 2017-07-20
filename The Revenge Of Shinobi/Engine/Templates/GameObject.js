@@ -29,8 +29,6 @@ class GameObject
         this.depth = 1; // Profundidade do objeto.
         this.active = true; // Bolleano para objeto ativo.
         this.collisionResult = new Result(false, null); // Resultado da collisao.
-
-        console.log("ok");
     }
     
     

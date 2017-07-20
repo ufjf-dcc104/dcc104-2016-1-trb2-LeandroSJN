@@ -59,7 +59,7 @@ class System
     
     Start()
     {
-        
+        //this.G = 0;
     }
     
     
@@ -111,6 +111,11 @@ class System
     // Chama os metodos de Draw dos objetos.
     CallDraws()
     {
+        if(this.visualDebug)
+        {
+            collisionSystem.grid.Draw();;
+        }
+
         for(var i = 0; i < this.gameObjects.length; i++)
         {
             if(this.gameObjects[i].object.visible)
@@ -121,7 +126,6 @@ class System
         
         if(this.visualDebug)
         {
-            collisionSystem.grid.Draw();
             this.DrawAxis();
             this.DrawGrid();
         }

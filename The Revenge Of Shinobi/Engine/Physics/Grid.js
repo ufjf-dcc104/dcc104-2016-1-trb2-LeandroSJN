@@ -19,7 +19,7 @@ class Grid extends GameObject
         this.type = "Grid"; // Tipo do objeto.
         this.holder = holder; // Objeto que possui o grid.
         this.grid = []; // Matriz para armazenar os objetos.
-        this.tileSize = system.screenHeight/100; // Tamanho dos quadros.
+        this.tileSize = system.screenHeight/80; // Tamanho dos quadros.
         this.transform.possition.x = x; // Determina a posição x.
         this.transform.possition.y = y; // Determina a posição y.
         this.transform.width = width; // Determina a largura.
@@ -55,7 +55,7 @@ class Grid extends GameObject
             {
                 if(this.grid[i][j] != undefined && i >= 0 && j >= 0)
                 {
-                    ctx.fillStyle = "red";
+                    ctx.fillStyle = "grey";
                     ctx.fillRect(i*this.tileSize + this.transform.possition.x,
                                  j*this.tileSize + this.transform.possition.y,
                                  this.tileSize,
@@ -119,6 +119,7 @@ class Grid extends GameObject
     GetObjectPossition(object)
     {
         var indexes = [];
+        var zone = 1;
         
         for(var i = 0; i < object.collider.length; i++)
         {
@@ -131,9 +132,9 @@ class Grid extends GameObject
             {
                 object.active = false;
             }
-            else for(var j = minX; j <= maxX; j++)
+            else for(var j = minX - zone; j <= maxX + zone; j++)
             {
-                for(var k = minY; k <= maxY; k++)
+                for(var k = minY - zone; k <= maxY + zone; k++)
                 {
                     indexes.push(new vec2(j, k));
                 }
