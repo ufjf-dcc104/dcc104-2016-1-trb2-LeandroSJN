@@ -24,7 +24,7 @@ class Rigidbody
         this.ignoreGravity = false; // Boleano para determinar se o objeto e afetado pela gravidade.
         this.ignoreCollision = false; // Ignorar quando ha uma colisao.
         this.collisionImminent = false;
-        this.collisionReaction;
+        this.collisionReaction = "reflect";
     }
     
     

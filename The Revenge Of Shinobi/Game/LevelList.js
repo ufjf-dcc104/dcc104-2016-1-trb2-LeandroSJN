@@ -6,6 +6,6 @@
 
 function LevelList()
 {
-    system.AddLevel("Level1", new Level1());
-    system.initialLevel = "Level1";
+    //system.AddLevel("Level1", new Level1());
+    system.LoadLevel(new Menu());
 }

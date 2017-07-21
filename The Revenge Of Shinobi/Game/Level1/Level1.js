@@ -17,13 +17,12 @@ class Level1 extends Level
         //system.AddGameObject(new Enemy(800, 300));
         system.AddGameObject(new CameraLevel1(), "Camera", true);
 
-        system.AddGameObject(new TestObject(screen.width/2, screen.height/1.5, 5, 0.5));
-        system.AddGameObject(new TestObject(screen.width/4, screen.height/2, 5, 0.5));
-        system.AddGameObject(new TestObject(screen.width/1.5, screen.height/3, 5, 0.5));
-        system.AddGameObject(new TestObject(screen.width/2, screen.height, 14, 0.5));
-        system.AddGameObject(new TestObject(screen.width/2, 100, 14, 0.5));
-        system.AddGameObject(new TestObject(screen.width, screen.height/1.5, 1, 8));
-        system.AddGameObject(new TestObject(80, screen.height/1.5, 1, 8));
+        system.AddGameObject(new TestObject(screen.width/2, screen.height/1.5, 500, 50));
+        system.AddGameObject(new TestObject(screen.width/4, screen.height/2, 500, 50));
+        system.AddGameObject(new TestObject(screen.width/1.5, screen.height/3, 500, 50));
+        system.AddGameObject(new TestObject(screen.width/2, screen.height, screen.width-10, 50));
+
+        this.buttonMenu = system.AddInterfaceComponent(new Button("button", 50, 25, 100, 50, 300, 100));
         
         system.audioLib.Play("theShinobi");
     }
@@ -31,7 +30,10 @@ class Level1 extends Level
     
     Update()
     {   
-        
+        if(this.buttonMenu.click)
+        {
+            system.LoadLevel(new Menu());
+        }
     }
 
 
@@ -43,6 +45,7 @@ class Level1 extends Level
     LoadImages()
     {
         system.imgLib.AddImage("kunai", "Game/img/kunai.png");
+        system.imgLib.AddImage("button", "Game/img/button.png");
 
         system.imgLib.AddImage("stopped", "Game/img/stopped.png");
         system.imgLib.AddImage("jumping", "Game/img/jumping.png");

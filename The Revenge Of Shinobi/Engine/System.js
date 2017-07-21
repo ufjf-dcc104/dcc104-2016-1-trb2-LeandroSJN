@@ -29,7 +29,6 @@ class System
         this.index = {}; // Estrutura que armazena os indices dos objetos agrupados pelo seu tipo.
         this.specialIndex = {}; // Estrutura que armazena os indices dos objetos que possuem um specialIndex.
         this.scripts = []; // Vetor contendo os scripts.
-        this.levels = {}; // Vetor contendo os levels.
         this.timeSinceStart = 0; // tempo desde o inicio.
         this.screenWidth = window.innerWidth; // Largura da tela.
         this.screenHeight = window.innerHeight; // Altura da tela.
@@ -46,8 +45,8 @@ class System
         this.debugError = true; // Console de erro.
         this.debugWarn = false; // Console de perigo.
         this.visualDebug = false; // Debug visual.
-        this.activeLevel; // Level atualmente carregado.
-        this.initialLevel; // Level inicial.
+        this.level; // Level atualmente ativo.
+        this.interface = [];
 
         this.Start();
     }
@@ -102,7 +101,12 @@ class System
             this.scripts[i].Update();
         }
 
-        this.levels[this.activeLevel].Update();
+        for(var i = 0; i < this.interface.length; i++)
+        {
+            this.interface[i].UpdateGameObject();
+        }
+
+        this.level.Update();
 
         this.Debug(">END CallIpdates");
     }
@@ -122,6 +126,11 @@ class System
             {
                 this.gameObjects[i].object.DrawGameObject();
             }
+        }
+
+        for(var i = 0; i < this.interface.length; i++)
+        {
+            this.interface[i].DrawGameObject();
         }
         
         if(this.visualDebug)
@@ -143,6 +152,14 @@ class System
         this.gameObjects.push(new gameObjectsElement(object, key, specialIndex));
         this.OrderGameObjects();
         this.UpdateIndex();
+        return object;
+    }
+
+
+    AddInterfaceComponent(object)
+    {
+        this.interface.push(object);
+        return object;
     }
     
     
@@ -150,13 +167,6 @@ class System
     AddScript(script)
     {
         this.scripts.push(script);
-    }
-
-
-    // Adiciona um level.
-    AddLevel(key, level)
-    {
-        this.levels[key] = level;
     }
     
     
@@ -226,6 +236,11 @@ class System
         {
             this.scripts[i].KeyUp(key);
         }
+
+        for(var i = 0; i < this.interface.length; i++)
+        {
+            this.interface[i].KeyUp(key);
+        }
     }
     
     
@@ -240,6 +255,11 @@ class System
         {
             this.scripts[i].KeyDown(key);
         }
+
+        for(var i = 0; i < this.interface.length; i++)
+        {
+            this.interface[i].KeyDown(key);
+        }
     }
     
     
@@ -253,6 +273,11 @@ class System
         for(var i = 0; i < this.scripts.length; i++)
         {
             this.scripts[i].MouseClick(key);
+        }
+
+        for(var i = 0; i < this.interface.length; i++)
+        {
+            this.interface[i].MouseClick(key);
         }
     }
     
@@ -298,11 +323,12 @@ class System
     
     
     // Limpa a cena e inicia um level.
-    LoadLevel(key)
+    LoadLevel(level)
     {
         this.gameObjects = [];
-        this.levels[key].Start();
-        this.activeLevel = key;
+        this.interface = [];
+        this.level = level;
+        this.level.Start();
     }
     
     

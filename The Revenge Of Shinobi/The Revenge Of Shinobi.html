@@ -47,6 +47,8 @@
         <script src="Engine/Physics/CollisionSystem.js"></script>
         <script src="Engine/Physics/Grid.js"></script>
 
+        <script src="Engine/Interface/Button.js"></script>
+
         <script src="Engine/System.js"></script>
         
         
@@ -65,6 +67,7 @@
         <script src="Game/Prefabs/BodyAttack.js"></script>
         <script src="Game/Prefabs/TestObject.js"></script>
         <script src="Game/LevelList.js"></script>
+        <script src="Game/Menu/Menu.js"></script>
         
 	</head>
 	
@@ -96,11 +99,8 @@
             var system = new System();
             var collisionSystem = new CollisionSystem();
 
-            // Carrega os leveis.
-            LevelList();
-
             // Carrega o level inicial.
-            system.LoadLevel(system.initialLevel);
+            LevelList();
 
             // Loop principal.
             function Update(time)

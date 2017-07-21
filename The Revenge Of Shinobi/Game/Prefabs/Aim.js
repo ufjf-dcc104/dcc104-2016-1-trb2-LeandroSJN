@@ -38,9 +38,9 @@ class Aim extends GameObject
     // Desenha o objeto.
     Draw()
     {
-        var direction = directionalVector(this, system.GetObjectsByType("Player"));
-        this.rigidbody.speed.x = 1*direction.x;
-        this.rigidbody.speed.y = 1*direction.y;
+        //var direction = directionalVector(this, system.GetObjectsByType("Player"));
+        //this.rigidbody.speed.x = 1*direction.x;
+        //this.rigidbody.speed.y = 1*direction.y;
         this.transform.angle = angle(this);
         ctx.save();
             ctx.translate(this.transform.possition.x, this.transform.possition.y);

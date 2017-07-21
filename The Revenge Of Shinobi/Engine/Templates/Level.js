@@ -13,4 +13,14 @@ class Level
     {
 
     }
+
+    Start()
+    {
+
+    }
+
+    Update()
+    {
+        
+    }
 }

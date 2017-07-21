@@ -24,6 +24,7 @@ class Grid extends GameObject
         this.transform.possition.y = y; // Determina a posição y.
         this.transform.width = width; // Determina a largura.
         this.transform.height = height; // Determina a altura.
+        this.maxTile = new vec2(0, 0);
 
         this.Start();
     }
@@ -130,7 +131,7 @@ class Grid extends GameObject
 
             if(minX < 0 || maxX < 0 || minY < 0 || maxY < 0)
             {
-                object.active = false;
+                //object.active = false;
             }
             else for(var j = minX - zone; j <= maxX + zone; j++)
             {

@@ -69,7 +69,7 @@ class Player extends GameObject
     {
         this.CollisionTreatment();
 
-        this.transform.scale.x = side(system.GetObjectsByType("Aim"), this);
+        //this.transform.scale.x = side(system.GetObjectsByType("Aim"), this);
     }
     
     
