@@ -17,7 +17,7 @@ class Player extends GameObject
         
         // Componentes.
         this.transform.possition.x = screen.width/2;
-        this.transform.possition.y = screen.height/10;
+        this.transform.possition.y = screen.height/2;
         this.transform.width = system.globalTileSize;
         this.transform.height = system.globalTileSize;
         

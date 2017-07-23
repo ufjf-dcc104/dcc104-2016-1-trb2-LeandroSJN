@@ -29,6 +29,7 @@ class Collider extends GameObject
         this.transform.width = width; // Determina a largura.
         this.transform.height = height; // Determina a altura.
         this.gridPossition = []; // Posição do objeto na grade de colisão.
+        this.collidersToCompare = [];
     }
     
     

@@ -63,12 +63,14 @@ class Camera extends GameObject
         {
             system.gameObjects[i].object.transform.possition.x += cutDecimal((this.rigidbody.speed.x/system.gameObjects[i].object.depth) * system.deltaTime);
             system.gameObjects[i].object.transform.possition.y += cutDecimal((this.rigidbody.speed.y/system.gameObjects[i].object.depth) * system.deltaTime);
+            if(system.gameObjects[i].object.collider[0]) system.gameObjects[i].object.collider[0].transform.possition.x = system.gameObjects[i].object.transform.possition.x;
+            if(system.gameObjects[i].object.collider[0]) system.gameObjects[i].object.collider[0].transform.possition.y = system.gameObjects[i].object.transform.possition.y;
             this.transform.possition.x += cutDecimal(this.rigidbody.speed.x * system.deltaTime);
             this.transform.possition.y += cutDecimal(this.rigidbody.speed.y * system.deltaTime);
         }
 
-        collisionSystem.grid.transform.possition.x += cutDecimal((this.rigidbody.speed.x) * system.deltaTime);
-        collisionSystem.grid.transform.possition.y += cutDecimal((this.rigidbody.speed.y) * system.deltaTime);
+        //collisionSystem.grid.transform.possition.x += cutDecimal((this.rigidbody.speed.x) * system.deltaTime);
+        //collisionSystem.grid.transform.possition.y += cutDecimal((this.rigidbody.speed.y) * system.deltaTime);
 
         this.SetPossition();
     }

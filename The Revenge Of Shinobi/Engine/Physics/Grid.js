@@ -19,12 +19,13 @@ class Grid extends GameObject
         this.type = "Grid"; // Tipo do objeto.
         this.holder = holder; // Objeto que possui o grid.
         this.grid = []; // Matriz para armazenar os objetos.
-        this.tileSize = system.screenHeight/80; // Tamanho dos quadros.
+        this.tileSize = system.screenHeight/50; // Tamanho dos quadros.
         this.transform.possition.x = x; // Determina a posição x.
         this.transform.possition.y = y; // Determina a posição y.
-        this.transform.width = width; // Determina a largura.
-        this.transform.height = height; // Determina a altura.
+        this.transform.width = screen.width; // Determina a largura.
+        this.transform.height = screen.height; // Determina a altura.
         this.maxTile = new vec2(0, 0);
+        this.ocuppedPositions = [];
 
         this.Start();
     }
@@ -36,7 +37,8 @@ class Grid extends GameObject
     
     Start()
     {
-        
+        this.maxTile.x = Math.floor(this.transform.width/this.tileSize);
+        this.maxTile.y = Math.floor(this.transform.height/this.tileSize);
     }
     
 
@@ -49,20 +51,13 @@ class Grid extends GameObject
     // Desennha os quadros ocupados.
     Draw()
     {
-        for(var i = 0; i < this.grid.length; i++)
+        for(var i = 0; i < this.ocuppedPositions.length; i++)
         {
-            if(this.grid[i] != undefined)
-            for(var j = 0; j < this.grid[i].length; j++)
-            {
-                if(this.grid[i][j] != undefined && i >= 0 && j >= 0)
-                {
-                    ctx.fillStyle = "grey";
-                    ctx.fillRect(i*this.tileSize + this.transform.possition.x,
-                                 j*this.tileSize + this.transform.possition.y,
-                                 this.tileSize,
-                                 this.tileSize);
-                }
-            }
+            ctx.fillStyle = "rgb(255, 0, 255)";
+            ctx.fillRect(this.ocuppedPositions[i].x*this.tileSize + this.transform.possition.x,
+                         this.ocuppedPositions[i].y*this.tileSize + this.transform.possition.y,
+                         this.tileSize,
+                         this.tileSize);
         }
         
     }
@@ -83,36 +78,61 @@ class Grid extends GameObject
             {
                 if(this.grid[possition[i].x] != undefined)
                 {
+                    // Existe a posição x e y.
                     if(this.grid[possition[i].x][possition[i].y] != undefined)
                     {
-                        this.UpdatePossition(object, possition[i]);
+                        var add = false;
+
+                        for(var j = 0; j < this.grid[possition[i].x][possition[i].y].length; j++)
+                        {
+                            if(!this.WillCollideWith(this.grid[possition[i].x][possition[i].y][j].collider[0], object.collider[0]))
+                            {
+                                add = true;
+                                this.grid[possition[i].x][possition[i].y][j].collider[0].collidersToCompare.push(object.collider[0].id);
+                                object.collider[0].collidersToCompare.push(this.grid[possition[i].x][possition[i].y][j].collider[0].id);
+                            }
+                        }
+
+                        if(add)
+                        {
+                            this.grid[possition[i].x][possition[i].y].push(object);
+                            // Adiciona a posição da matriz ao vetor de posiçoes ocupadas quando ha mais de 1 elemento.
+                            if(this.grid[possition[i].x][possition[i].y].length > 1)
+                            {
+                                this.ocuppedPositions.push(new vec2(possition[i].x, possition[i].y));
+                            }
+                        }
                     }
+                    // So existe x na grid.
                     else
                     {
                         this.grid[possition[i].x][possition[i].y] = [];
-
-                        this.UpdatePossition(object, possition[i]);
+                        this.grid[possition[i].x][possition[i].y].push(object);
                     }
                 }
+                // Não existe essa posição ainda na grid.
                 else
                 {
                     this.grid[possition[i].x] = [];
                     this.grid[possition[i].x][possition[i].y] = [];
-                    
-                    this.UpdatePossition(object, possition[i]);
+                    this.grid[possition[i].x][possition[i].y].push(object);
                 }
             }
         }
     }
 
-    
-    // Adiciona o objeto na possição calculada.
-    UpdatePossition(object, possition)
-    {              
-        object.transform.gridPossition.x = possition.x;
-        object.transform.gridPossition.y = possition.y;
-        var zLenght = this.grid[possition.x][possition.y].push(object);
-        object.transform.gridPossition.z = zLenght - 1;
+
+    // Retorna verdadeiro se os colisores ja ocupam um mesmo quadro.
+    WillCollideWith(collider1, collider2)
+    {
+        for(var i = 0; i < collider1.collidersToCompare.length; i++)
+        {
+            if(collider1.collidersToCompare[i] == collider2.id)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     
@@ -129,7 +149,13 @@ class Grid extends GameObject
             var minY = Math.floor(((object.transform.possition.y - object.collider[i].transform.height/2) - this.transform.possition.y) / this.tileSize);
             var maxY = Math.floor(((object.transform.possition.y + object.collider[i].transform.height/2) - this.transform.possition.y) / this.tileSize);
 
-            if(minX < 0 || maxX < 0 || minY < 0 || maxY < 0)
+            if(minX < 0) minX = 0;
+            if(minY < 0) minY = 0;
+
+            if(maxX > this.maxTile.x) maxX = this.maxTile.x;
+            if(maxY > this.maxTile.y) maxY = this.maxTile.y;
+
+            if(minX > this.maxTile.x || maxX < 0 || minY > this.maxTile.y || maxY < 0)
             {
                 //object.active = false;
             }
@@ -150,5 +176,6 @@ class Grid extends GameObject
     ResetGrid()
     {
         this.grid = [];
+        this.ocuppedPositions = [];
     }
 };

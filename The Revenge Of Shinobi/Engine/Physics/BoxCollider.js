@@ -31,6 +31,7 @@ class BoxCollider extends Collider
     {
         this.transform.possition.x = this.relativePossition.x + this.holder.transform.possition.x;
         this.transform.possition.y = this.relativePossition.y + this.holder.transform.possition.y;
+        this.collidersToCompare = [];
     }
     
     

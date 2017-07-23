@@ -16,6 +16,7 @@ class GameObject
     {
         this.type = "GameObject"; // Tipo do objeto.
         this.tag; // Tag do objeto.
+        this.id;
         this.transform = new Transform(this, 0, 0, 0, 0, 0); // Componente transform.
         this.renderComponents = {}; // Array de componentes de render.
         this.components = {}; // Array de componentes.
@@ -144,10 +145,14 @@ class GameObject
             }
             else if(component.type == "BoxCollider")
             {
+                component.id = collisionSystem.collidersCount;
+                collisionSystem.collidersCount++;
                 this.collider.push(component);
             }
             else if(component.type == "CircleCollider")
             {
+                component.id = collisionSystem.collidersCount;
+                collisionSystem.collidersCount++;
                 this.collider.push(component);
             }
             else if(!this.components[component.type])

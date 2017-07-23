@@ -28,6 +28,7 @@ class CollisionSystem
     constructor()
     {
         this.grid = new Grid(this, 0, 0, 0, 0); // Estrutura que armazena os objetos para verificação.
+        this.collidersCount = 0;
     }
     
     //--------------------------------------------------------------------
@@ -109,20 +110,17 @@ class CollisionSystem
     VerifyCollisions()
     {
         var grid = this.grid.grid;
-        
-        for(var i = 0; i < grid.length; i++)
+
+        for(var i = 0; i < this.grid.ocuppedPositions.length; i++)
         {
-            if(grid[i] != undefined) for(var j = 0; j < grid[i].length; j++)
+            var a1 = this.grid.ocuppedPositions[i].x;
+            var a2 = this.grid.ocuppedPositions[i].y;
+
+            for(var k = 0; k < grid[a1][a2].length - 1; k++)
             {
-                if((grid[i][j] != undefined))
-                {
-                    if(grid[i][j].length > 1) for(var k = 0; k < grid[i][j].length - 1; k++)
-                    {
-                        for(var l = k+1; l < grid[i][j].length; l++)
-                        {   
-                            this.CallColliders(i,j,k,l,grid);
-                        }
-                    }
+                for(var l = k+1; l < grid[a1][a2].length; l++)
+                {   
+                     this.CallColliders(a1, a2, k, l, grid);
                 }
             }
         }

@@ -5,6 +5,67 @@
 //////////////////////////////////////////////////////////////////////////
 
 
+// Classe para no da arvore de gameobjects.
+class Node
+{
+    constructor(object)
+    {
+        this.object = object;
+        this.left = undefined;
+        this.rigth = undefined;
+    }
+}
+
+
+// Classe para arvore de gameojects.
+class GameObjectTree
+{
+    constructor()
+    {
+        this.root = undefined;
+        this.p = undefined;
+    }
+
+    // Adiciona um objeto na arvore.
+    AddObject(object)
+    {
+        if(this.root == undefined)
+        {
+            this.root = new Node(object);
+        }
+        else
+        {
+            this.p = root;
+            while(this.p != undefined)
+            {
+                if(this.p.object.drawOrder <= object.drawOrder)
+                {
+                    this.p = this.p.rigth;
+                }
+                else
+                {
+                    this.p = this.p.left;
+                }
+            }
+            this.p = new Node(object);
+        }
+    }
+
+
+    // Percorre a arvore fazendo os Updates.
+    UpdateTree()
+    {
+
+    }
+
+
+    // Percorre a arvore desenhando.
+    DrawTree()
+    {
+
+    }
+}
+
 // Classe para os elementos do vetor de game objects.
 class gameObjectsElement
 {
@@ -32,7 +93,7 @@ class System
         this.timeSinceStart = 0; // tempo desde o inicio.
         this.screenWidth = window.innerWidth; // Largura da tela.
         this.screenHeight = window.innerHeight; // Altura da tela.
-        this.fps = 120; // Maximo de fps.
+        this.fps = 63; // Maximo de fps.
 		this.dt = 0; // Delta time.
         this.G = 1.2*screen.height; // Valor da gravidade.
         this.audioLib = new AudioResources(); // Biblioteca de audio.
@@ -47,7 +108,8 @@ class System
         this.visualDebug = false; // Debug visual.
         this.level; // Level atualmente ativo.
         this.interface = [];
-
+        this.camera = new Camera();
+        this.cursor;
         this.Start();
     }
     
@@ -68,6 +130,7 @@ class System
         collisionSystem.Update();
         this.CallUpdates();
         this.RemoveInactives();
+        this.camera.Update();
         this.Debug("==================END OF SYSTEM UPDATE==================");
     }
     
