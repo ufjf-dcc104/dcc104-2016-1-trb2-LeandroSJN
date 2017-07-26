@@ -31,7 +31,6 @@ class BoxCollider extends Collider
     {
         this.transform.possition.x = this.relativePossition.x + this.holder.transform.possition.x;
         this.transform.possition.y = this.relativePossition.y + this.holder.transform.possition.y;
-        this.collidersToCompare = [];
     }
     
     
@@ -42,6 +41,7 @@ class BoxCollider extends Collider
         ctx.strokeRect(this.transform.possition.x - this.transform.width/2, this.transform.possition.y - this.transform.height/2, this.transform.width, this.transform.height);
 
         ctx.fillStyle = "rgb(0, 255, 0)";
+        if(this.c) ctx.fillStyle = "rgb(255, 0, 0)";
         ctx.fillRect(this.transform.possition.x - 2.5, this.transform.possition.y - 2.5, 5, 5);
     }
     
@@ -52,18 +52,20 @@ class BoxCollider extends Collider
 
     Collides(collider)
     {
-        if(!this.onCollision)
-        {
+        //if(!this.onCollision)
+        //{
             this.CillideWithCollider(collider);
-        }
-        else
-        {
-            this.CollisionReaction(collider);
-        }
+        //}
+        //else
+        //{
+            if(this.onCollision) this.CollisionReaction(collider);
+        //}
     }
 
     CillideWithCollider(collider)
     {
+        collisionSystem.totalTests++;
+        
         var dif;
         var hWidth = this.transform.width/2;
         var hHeight = this.transform.height/2;
@@ -76,22 +78,26 @@ class BoxCollider extends Collider
                 {
                     dif = (collider.transform.possition.x - cWidth) - (this.transform.possition.x + hWidth);
 
-                    if(Math.abs(dif/system.deltaTime) < Math.abs(this.holder.rigidbody.speed.x - collider.holder.rigidbody.speed.x))
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.x - collider.holder.rigidbody.speed.x))
                     {
                         this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
                         this.holder.rigidbody.speed.x = cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("l");
+                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
+                        return true;
                     }
                 }
                 else if(this.holder.rigidbody.speed.x < 0)
                 {
                     dif = (collider.transform.possition.x + cWidth) - (this.transform.possition.x - hWidth);
 
-                    if(Math.abs(dif/system.deltaTime) < Math.abs(this.holder.rigidbody.speed.x - collider.holder.rigidbody.speed.x))
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.x - collider.holder.rigidbody.speed.x))
                     {
                         this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
                         this.holder.rigidbody.speed.x = -cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("r");
+                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
+                        return true;
                     }
                 }
             }
@@ -101,25 +107,31 @@ class BoxCollider extends Collider
                 {
                     dif = (collider.transform.possition.y - cHeight) - (this.transform.possition.y + hHeight);
                     
-                    if(Math.abs(dif/system.deltaTime) < Math.abs(this.holder.rigidbody.speed.y - collider.holder.rigidbody.speed.y))
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.y - collider.holder.rigidbody.speed.y))
                     {
                         this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
                         this.holder.rigidbody.speed.y = cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("u");
+                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
+                        return true;
                     }
                 }
                 else if(this.holder.rigidbody.speed.y < 0)
                 {
                     dif = (collider.transform.possition.y + cHeight) - (this.transform.possition.y - hHeight);
 
-                    if(Math.abs(dif/system.deltaTime) < Math.abs(this.holder.rigidbody.speed.y - collider.holder.rigidbody.speed.y))
+                    if(Math.abs(dif/system.deltaTime) <= Math.abs(this.holder.rigidbody.speed.y - collider.holder.rigidbody.speed.y))
                     {
                         this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
                         this.holder.rigidbody.speed.y = -cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("d");
+                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
+                        return true;
                     }
                 }
             }
+            //console.error("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
+            return false;
     }
 
     CollisionReaction(collider)
@@ -128,11 +140,11 @@ class BoxCollider extends Collider
         {
             if(this.collisionSide == "r" || this.collisionSide == "l")
             {
-                this.holder.rigidbody.speed.x = -this.speedBefore.x/2;
+                this.holder.rigidbody.speed.x = -this.speedBefore.x;
             }
             else
             {
-                this.holder.rigidbody.speed.y = -this.speedBefore.y/2;
+                this.holder.rigidbody.speed.y = -this.speedBefore.y;
             }
             this.onCollision = false;
         }
@@ -142,6 +154,8 @@ class BoxCollider extends Collider
         }
         else if(this.holder.rigidbody.collisionReaction == "stop")
         {
+            this.holder.rigidbody.speed.x = 0;
+            this.holder.rigidbody.speed.y = 0;
             this.onCollision = false;
         }
     }

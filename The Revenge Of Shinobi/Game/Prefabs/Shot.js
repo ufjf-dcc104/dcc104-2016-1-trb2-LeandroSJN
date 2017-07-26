@@ -19,7 +19,7 @@ class Shot extends GameObject
         this.AddComponent(new Rigidbody(this, 5*system.GetObjectsByType("Player").rigidbody.defaultSpeed.x, 5*system.GetObjectsByType("Player").rigidbody.defaultSpeed.x, 0, 0, 0, 0));
         this.AddComponent(new BoxCollider(this, 0, 0, 10, 10, 0));
 
-        this.rigidbody.ignoreGravity = false;
+        this.rigidbody.ignoreGravity = true;
     }
     
     

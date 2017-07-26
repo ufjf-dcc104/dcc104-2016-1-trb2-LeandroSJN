@@ -21,6 +21,9 @@ class Level1 extends Level
         system.AddGameObject(new TestObject(screen.width/4, screen.height/2, 500, 50));
         system.AddGameObject(new TestObject(screen.width/1.5, screen.height/3, 500, 50));
         system.AddGameObject(new TestObject(screen.width/2, screen.height, screen.width-10, 50));
+        system.AddGameObject(new TestObject(screen.width/2, 0, screen.width-10, 50));
+        system.AddGameObject(new TestObject(screen.width, screen.height/2, screen.width/10, screen.height));
+        system.AddGameObject(new TestObject(0, screen.height/2, screen.width/10, screen.height));
 
         this.buttonMenu = system.AddInterfaceComponent(new Button("button", 50, 25, 100, 50, 300, 100));
         

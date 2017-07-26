@@ -42,6 +42,8 @@ class Player extends GameObject
         //this.AddRenderComponent("andando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
         //this.AddRenderComponent("pulando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
 
+        this.rigidbody.ignoreGravity = false;
+
         this.Start();
     }
     
@@ -59,7 +61,7 @@ class Player extends GameObject
                                      1000,0.1,100.71,2.0,100,100, 0,
                                      true, 100, 100, 3*Math.PI/2 - 0.5, 3*Math.PI/2);// Particle.
         
-        system.AddGameObject(particle);// Nao sera destruida com o player.
+        //system.AddGameObject(particle);// Nao sera destruida com o player.
         //this.AddComponent(particle);// Sera destruida com o player.
     }
     
@@ -68,7 +70,6 @@ class Player extends GameObject
     Update()
     {
         this.CollisionTreatment();
-
         //this.transform.scale.x = side(system.GetObjectsByType("Aim"), this);
     }
     
