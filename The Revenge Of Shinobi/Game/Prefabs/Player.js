@@ -17,7 +17,7 @@ class Player extends GameObject
         
         // Componentes.
         this.transform.possition.x = screen.width/2;
-        this.transform.possition.y = screen.height/2;
+        this.transform.possition.y = screen.height - 130 - system.globalTileSize/2;
         this.transform.width = system.globalTileSize;
         this.transform.height = system.globalTileSize;
         
@@ -42,7 +42,7 @@ class Player extends GameObject
         //this.AddRenderComponent("andando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
         //this.AddRenderComponent("pulando", new SpriteAnimation("walking", 128, 128, 2, 2, 0, 0, 4, 0, 10));
 
-        this.rigidbody.ignoreGravity = false;
+        this.rigidbody.ignoreGravity = true;
 
         this.Start();
     }

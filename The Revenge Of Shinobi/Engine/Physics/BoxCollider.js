@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////////
 // Autor: Leandro Dornela Ribeiro
 // Criado: 2016
+// TODO: Implementação da nova detecção de colisão.
 // Modificado: 13/07/2017 - Documentação
 //////////////////////////////////////////////////////////////////////////
 
@@ -16,9 +17,9 @@ class BoxCollider extends Collider
         super(holder, width, height, relativeX, relativeY, angle);
         
         this.type = "BoxCollider"; // Tipo do colisor.
-        this.speedBefore = new vec2(0, 0);
-        this.onCollision = false;
-        this.collisionSide;
+        this.speedBefore = new vec2(0, 0); // Velocidade antes da colisao.
+        this.onCollision = false; // Verdadeiro quando o objeto acabou de colidir.
+        this.collisionSide; // Lado da colisao.
     }
     
     
@@ -50,27 +51,77 @@ class BoxCollider extends Collider
     // Funções de deteccao de colisao.
     //--------------------------------------------------------------------
 
+    // Detecta e trata uma colisao.
     Collides(collider)
     {
-        //if(!this.onCollision)
-        //{
+        if(!this.onCollision)
+        {
             this.CillideWithCollider(collider);
-        //}
-        //else
-        //{
-            if(this.onCollision) this.CollisionReaction(collider);
-        //}
+        }
+        else
+        {
+            this.CollisionReaction(collider);
+        }
     }
 
+    
+    // Determina se houve uma colisao e qual foi o lado.
     CillideWithCollider(collider)
     {
         collisionSystem.totalTests++;
         
         var dif;
+        var speedRes;
         var hWidth = this.transform.width/2;
         var hHeight = this.transform.height/2;
         var cWidth = collider.transform.width/2;
         var cHeight = collider.transform.height/2;
+
+        // TODO: Terminar a nova implementação.
+        /*if(this.transform.possition.y - c1Height <= collider.transform.possition.y + c2Height && this.transform.possition.y + c1Height >= collider.transform.possition.y - c2Height)
+        {
+            if(this.holder.rigidbody.speed.x > 0)
+            {
+                distance = ((collider.transform.possition.x - c2Width) - (this.transform.possition.x + c1Width))/system.deltaTime;
+                speedRes = this.holder.rigidbody.speed.x - collider.holder.rigidbody.speed.x;
+                
+                if((distance > 0) && ((speedRes) >= distance))
+                {
+                    this.holder.rigidbody.speed.x = distance;
+                }
+            }
+            else if(this.holder.rigidbody.speed.x < 0)
+            {
+                distance = ((this.transform.possition.x - c1Width) - (collider.transform.possition.x + c2Width))/system.deltaTime;
+
+                if((distance >= 0) && ((collider.holder.rigidbody.speed.x - this.holder.rigidbody.speed.x) >= distance))
+                {
+                    
+                }
+            }
+        }
+        
+        if(this.transform.possition.x - c1Width <= collider.transform.possition.x + c2Width && this.transform.possition.x + c1Width >= collider.transform.possition.x - c2Width)
+        {
+            if(this.holder.rigidbody.speed.y > 0)
+            {
+                distance = ((collider.transform.possition.y - c2Height) - (this.transform.possition.y + c1Height))/system.deltaTime;
+
+                if((distance >= 0) && ((this.holder.rigidbody.speed.y - collider.holder.rigidbody.speed.y) >= distance))
+                {
+                    
+                }
+            }
+            else if(this.holder.rigidbody.speed.y < 0)
+            {
+                distance = ((this.transform.possition.y - c1Height) - (collider.transform.possition.y + c2Height))/system.deltaTime;
+
+                if((distance >= 0) && ((collider.holder.rigidbody.speed.y - this.holder.rigidbody.speed.y) >= distance))
+                {
+                    
+                }
+            }
+        }*/
 
             if(this.transform.possition.y - hHeight <= collider.transform.possition.y + cHeight && this.transform.possition.y + hHeight >= collider.transform.possition.y - cHeight)
             {
@@ -83,7 +134,6 @@ class BoxCollider extends Collider
                         this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
                         this.holder.rigidbody.speed.x = cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("l");
-                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
                         return true;
                     }
                 }
@@ -96,7 +146,6 @@ class BoxCollider extends Collider
                         this.speedBefore.x = cutDecimal(this.holder.rigidbody.speed.x);
                         this.holder.rigidbody.speed.x = -cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("r");
-                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
                         return true;
                     }
                 }
@@ -112,7 +161,6 @@ class BoxCollider extends Collider
                         this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
                         this.holder.rigidbody.speed.y = cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("u");
-                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
                         return true;
                     }
                 }
@@ -125,15 +173,15 @@ class BoxCollider extends Collider
                         this.speedBefore.y = cutDecimal(this.holder.rigidbody.speed.y);
                         this.holder.rigidbody.speed.y = -cutDecimal(Math.abs(dif/system.deltaTime));
                         this.SetCollisionSide("d");
-                        //console.log("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
                         return true;
                     }
                 }
             }
-            //console.error("Testando " + this.holder.type + " " + this.id + " com " + collider.holder.type + " " + collider.id);
             return false;
     }
 
+    
+    // Determina a reação da colisao.
     CollisionReaction(collider)
     {
         if(this.holder.rigidbody.collisionReaction == "reflect")

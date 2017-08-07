@@ -16,7 +16,7 @@ class GameObject
     {
         this.type = "GameObject"; // Tipo do objeto.
         this.tag; // Tag do objeto.
-        this.id;
+        this.id; // Identificador do objeto.
         this.transform = new Transform(this, 0, 0, 0, 0, 0); // Componente transform.
         this.renderComponents = {}; // Array de componentes de render.
         this.components = {}; // Array de componentes.

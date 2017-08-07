@@ -11,7 +11,6 @@ class Menu extends Level
         this.LoadImages();
         this.LoadSounds();
 
-        this.aim = system.AddGameObject(new Aim(), "Aim", true);
         this.buttonLv1 = system.AddInterfaceComponent(new Button("button", screen.width/2, screen.height/2 - 150, 300, 100, 300, 100));
         this.buttonLv2 = system.AddInterfaceComponent(new Button("button", screen.width/2, screen.height/2, 300, 100, 300, 100));
         this.buttonLv3 = system.AddInterfaceComponent(new Button("button", screen.width/2, screen.height/2 + 150, 300, 100, 300, 100));

@@ -1,6 +1,8 @@
 //////////////////////////////////////////////////////////////////////////
 // Autor: Leandro Dornela Ribeiro
 // Criado: 2016
+// TODO: Adicionar novamente o suporte a grid.
+//       Reduzir o numero de comparações no N^2.
 // Modificado: 13/07/2017 - Documentação
 //             18/07/2017 - Correção de bug no deslocamento do colisor,
 //                          relacionado a ordem de chamada.
@@ -28,7 +30,9 @@ class CollisionSystem
     // Construtor.
     constructor()
     {
+        this.grid = new Grid(this,0,0,0,0);
         this.totalTests = 0;
+        this.useGrid = false;
     }
     
     //--------------------------------------------------------------------
@@ -78,10 +82,15 @@ class CollisionSystem
                 system.DebugWarn("THE OBJECT DONT HAVE A RIGIDBODY!");
             }
 
+            
             // Verifica colisoes.
-            if(system.gameObjects[i].object.collider[0]) for(var j = 0; j < system.gameObjects.length; j++)
+            if(this.useGrid)
             {
-                if(system.gameObjects[j].object.collider[0] && i != j) system.gameObjects[i].object.collider[0].Collides(system.gameObjects[j].object.collider[0]);
+
+            }
+            else
+            {
+                this.On2Collision(i, j);
             }
 
             // Atualiza a posicao.
@@ -97,5 +106,14 @@ class CollisionSystem
         
         //console.log(this.totalTests + ", " + system.gameObjects.length);
         system.Debug("==========COLLISION SYSTEM UPDATED==========");
+    }
+
+
+    On2Collision(i, j)
+    {
+        if(system.gameObjects[i].object.collider[0]) for(var j = 0; j < system.gameObjects.length; j++)
+        {
+            if(system.gameObjects[j].object.collider[0] && i != j) system.gameObjects[i].object.collider[0].Collides(system.gameObjects[j].object.collider[0]);
+        }
     }
 }

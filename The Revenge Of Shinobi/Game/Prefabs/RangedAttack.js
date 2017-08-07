@@ -41,7 +41,7 @@ class RangedAttack
             var shot;
                 
             // Posiciona o tiro em ralação ao player de acordo com a posição da mira.
-            if(system.GetObjectBySpecialIndex("Aim").transform.possition.x < holder.transform.possition.x)
+            if(system.cursor.transform.possition.x < holder.transform.possition.x)
             {
                 shot = new Shot(holder.transform.possition.x - 0.3*holder.transform.width, holder.transform.possition.y - 0.2*holder.transform.height);
             }
@@ -51,7 +51,7 @@ class RangedAttack
             }
 
             // Obtem a direção do tiro a mira.
-            var direction = directionalVector(shot, system.GetObjectBySpecialIndex("Aim"));
+            var direction = directionalVector(shot, system.cursor);
                 
             // Multiplica a velocidade do tiro pelo vetor unitario de direção.
             shot.rigidbody.speed.x = shot.rigidbody.speed.x*direction.x;
@@ -81,7 +81,7 @@ class RangedAttack
             var shot;
                 
             // Posiciona o tiro em ralação ao player de acordo com a posição da mira.
-            if(system.GetObjectBySpecialIndex("Aim").transform.possition.x < holder.transform.possition.x)
+            if(system.cursor.transform.possition.x < holder.transform.possition.x)
             {
                 shot = new PlayerShot(holder.transform.possition.x - 0.3*holder.transform.width, holder.transform.possition.y - 0.2*holder.transform.height);
             }
@@ -91,7 +91,7 @@ class RangedAttack
             }
 
             // Obtem a direção do tiro a mira.
-            var direction = directionalVector(shot, system.GetObjectBySpecialIndex("Aim"));
+            var direction = directionalVector(shot, system.cursor);
                 
             // Multiplica a velocidade do tiro pelo vetor unitario de direção.
             shot.rigidbody.speed.x = shot.rigidbody.speed.x*direction.x;
@@ -121,7 +121,7 @@ class RangedAttack
             var shot;
                 
             // Posiciona o tiro em ralação ao player de acordo com a posição da mira.
-            if(system.GetObjectBySpecialIndex("Aim").transform.possition.x < holder.transform.possition.x)
+            if(system.cursor.transform.possition.x < holder.transform.possition.x)
             {
                 shot = new EnemyShot(holder.transform.possition.x - 0.3*holder.transform.width, holder.transform.possition.y - 0.2*holder.transform.height);
             }
@@ -131,7 +131,7 @@ class RangedAttack
             }
 
             // Obtem a direção do tiro a mira.
-            var direction = directionalVector(shot, system.GetObjectBySpecialIndex("Aim"));
+            var direction = directionalVector(shot, system.cursor);
                 
             // Multiplica a velocidade do tiro pelo vetor unitario de direção.
             shot.rigidbody.speed.x = shot.rigidbody.speed.x*direction.x;

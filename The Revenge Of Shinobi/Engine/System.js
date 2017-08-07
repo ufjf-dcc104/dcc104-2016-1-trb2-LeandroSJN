@@ -1,6 +1,8 @@
 //////////////////////////////////////////////////////////////////////////
 // Autor: Leandro Dornela Ribeiro
 // Criado: 2016
+// TODO: Implementar a arvore de objetos.
+//       Parar de tocar o audio de um level para o outro.
 // Modificado: 14/07/2017 - Documentação
 //////////////////////////////////////////////////////////////////////////
 
@@ -109,7 +111,7 @@ class System
         this.level; // Level atualmente ativo.
         this.interface = [];
         this.camera = new Camera();
-        this.cursor;
+        this.cursor = new Cursor(10, 10, "original");
         this.Start();
     }
     
@@ -120,7 +122,7 @@ class System
     
     Start()
     {
-        //this.G = 0;
+        
     }
     
     
@@ -131,6 +133,7 @@ class System
         this.CallUpdates();
         this.RemoveInactives();
         this.camera.Update();
+        this.cursor.Update();
         this.Debug("==================END OF SYSTEM UPDATE==================");
     }
     
@@ -139,6 +142,7 @@ class System
     {
         ClearScreen();
         this.CallDraws();
+        this.cursor.Draw();
     }
     
     
@@ -388,6 +392,14 @@ class System
     // Limpa a cena e inicia um level.
     LoadLevel(level)
     {
+        delete(this.audioLib);
+        delete(this.imgLib);
+        delete(this.gameObjects);
+        delete(this.interface);
+        delete(this.level);
+
+        this.audioLib = new AudioResources();
+        this.imgLib = new ImageResources();
         this.gameObjects = [];
         this.interface = [];
         this.level = level;

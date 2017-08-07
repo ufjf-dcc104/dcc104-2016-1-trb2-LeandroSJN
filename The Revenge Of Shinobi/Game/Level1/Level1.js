@@ -11,19 +11,12 @@ class Level1 extends Level
 
         this.StartMaps();
 
-        system.AddGameObject(new Aim(), "Aim", true);
         system.AddGameObject(new Player(5), "Player", true);
-        //system.AddGameObject(new Layer("background",0,screen.height/2,0,0,1280,720,10,true, 0));
-        //system.AddGameObject(new Enemy(800, 300));
         system.camera = new CameraLevel1();
 
-        system.AddGameObject(new TestObject(screen.width/2, screen.height/1.5, 500, 50));
-        system.AddGameObject(new TestObject(screen.width/4, screen.height/2, 500, 50));
-        system.AddGameObject(new TestObject(screen.width/1.5, screen.height/3, 500, 50));
-        system.AddGameObject(new TestObject(screen.width/2, screen.height, screen.width-10, 50));
-        system.AddGameObject(new TestObject(screen.width/2, 0, screen.width-10, 50));
-        system.AddGameObject(new TestObject(screen.width, screen.height/2, screen.width/10, screen.height));
-        system.AddGameObject(new TestObject(0, screen.height/2, screen.width/10, screen.height));
+        system.AddGameObject(new TestObject(15*system.globalTileSize, 4*system.globalTileSize, 10*system.globalTileSize, 100));
+        system.AddGameObject(new TestObject(screen.width/2, screen.height, screen.width-10, 260));
+        system.AddGameObject(new TestObject(0 - screen.width/20, screen.height/2, screen.width/10, screen.height));
 
         this.buttonMenu = system.AddInterfaceComponent(new Button("button", 50, 25, 100, 50, 300, 100));
         
@@ -143,9 +136,9 @@ class Level1 extends Level
         layer2.depth = 1.5;
         layer4.depth = 0.8;
 
-        //system.AddGameObject(layer1);
-        //system.AddGameObject(layer2);
-        //system.AddGameObject(layer3, "ActiveLayer", true);
-        //system.AddGameObject(layer4);
+        system.AddGameObject(layer1);
+        system.AddGameObject(layer2);
+        system.AddGameObject(layer3, "ActiveLayer", true);
+        system.AddGameObject(layer4);
     }
 }

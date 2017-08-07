@@ -22,9 +22,9 @@ class Rigidbody
         this.angularSpeed = 0; // Velocidade Angular.
         this.mass = 0; // Massa do objeto.
         this.ignoreGravity = false; // Boleano para determinar se o objeto e afetado pela gravidade.
-        this.ignoreCollision = false; // Ignorar quando ha uma colisao.
-        this.collisionImminent = false;
-        this.collisionReaction = "reflect";
+        this.trateCollision = false; // Reagir ou não quando ha uma colisão.
+        this.elasticCollision = false; // Colisão elastica ou não.
+        this.collisionReaction = "reflect"; // Reação da collisão.
     }
     
     
